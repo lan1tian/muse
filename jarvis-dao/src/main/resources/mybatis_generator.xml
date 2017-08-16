@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<context id="jarvis2" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://10.11.2.191/jarvis2" userId="data"
+			password="data@mogujie" />
+
+		<javaModelGenerator targetPackage="com.mogujie.jarvis.dto.generate"
+			targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="com.mogujie.jarvis.dao.generate"
+			targetProject="src/main/resources" />
+		<javaClientGenerator targetPackage="com.mogujie.jarvis.dao.generate"
+			targetProject="src/main/java" type="XMLMAPPER" />
+
+		<table schema="jarvis2" tableName="app">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="appId" sqlStatement="MySql"
+				identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="app_worker_group">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="job">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="jobId" sqlStatement="MySql"
+				identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="plan">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="job_depend">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="job_schedule_expression">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="task">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="taskId" sqlStatement="MySql"
+				identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="task_depend" modelType="flat">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="worker">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="worker_group">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="biz_group">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="alarm">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="task_history">
+			<property name="useActualColumnNames" value="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="operation_log" modelType="flat">
+			<property name="useActualColumnNames" value="true"></property>
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+		<table schema="jarvis2" tableName="department_biz_map">
+			<property name="useActualColumnNames" value="true"></property>
+		</table>
+
+		<table schema="jarvis2" tableName="department">
+			<property name="useActualColumnNames" value="true"></property>
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+	</context>
+
+	<context id="iroman" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://10.11.2.120/ironman" userId="dataread"
+			password="dataread" />
+
+		<javaModelGenerator targetPackage="com.mogujie.jarvis.dto.generate"
+			targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="com.mogujie.jarvis.dao.generate"
+			targetProject="src/main/resources" />
+		<javaClientGenerator targetPackage="com.mogujie.jarvis.dao.generate"
+			targetProject="src/main/java" type="XMLMAPPER" />
+
+		<table catalog="ironman" tableName="script">
+			<property name="useActualColumnNames" value="true" />
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+
+	</context>
+
+</generatorConfiguration>

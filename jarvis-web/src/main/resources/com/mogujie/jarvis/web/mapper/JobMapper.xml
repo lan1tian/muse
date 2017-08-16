@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.JobMapper">
+
+    <sql id="condition">
+        <where>
+            <if test="jobIdList!=null and jobIdList.size()>0">
+                t.jobId IN
+                <foreach collection="jobIdList" item="jobId" open="(" close=")" separator=",">
+                    #{jobId}
+                </foreach>
+            </if>
+            <if test="jobNameList!=null and jobNameList.size()>0">
+                AND
+                <foreach collection="jobNameList" item="jobName" open="(" close=")" separator="OR">
+                    jobName LIKE concat('%',#{jobName},'%')
+                </foreach>
+            </if>
+
+            <if test="jobTypeList!=null and jobTypeList.size()>0">
+                AND t.jobType IN
+                <foreach collection="jobTypeList" item="jobType" open="(" close=")" separator=",">
+                    #{jobType}
+                </foreach>
+            </if>
+            <if test="isTempList!=null and isTempList.size()>0">
+                AND isTemp IN
+                <foreach collection="isTempList" item="isTemp" open="(" close=")" separator=",">
+                    #{isTemp}
+                </foreach>
+            </if>
+
+            <choose>
+                <when test="statusList!=null and statusList.size()>0">
+                    AND t.status IN
+                    <foreach collection="statusList" item="status" open="(" close=")" separator=",">
+                        #{status}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND t.status!=4
+                </otherwise>
+            </choose>
+
+            <if test="submitUserList!=null and submitUserList.size()>0">
+                AND t.submitUser IN
+                <foreach collection="submitUserList" item="submitUser" open="(" close=")" separator=",">
+                    #{submitUser}
+                </foreach>
+            </if>
+            <if test="priorityList!=null and priorityList.size()>0">
+                AND t.priority IN
+                <foreach collection="priorityList" item="priority" open="(" close=")" separator=",">
+                    #{priority}
+                </foreach>
+            </if>
+            <if test="appIdList!=null and appIdList.size()>0">
+                AND t.appId IN
+                <foreach collection="appIdList" item="appId" open="(" close=")" separator=",">
+                    #{appId}
+                </foreach>
+            </if>
+            <if test="workerGroupIdList!=null and workerGroupIdList.size()>0">
+                AND t.workerGroupId IN
+                <foreach collection="workerGroupIdList" item="workerGroupId" open="(" close=")" separator=",">
+                    #{workerGroupId}
+                </foreach>
+            </if>
+
+        </where>
+    </sql>
+    <sql id="pager">
+        <if test="offset!=null and limit!=null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+    <select id="getCountByCondition" parameterType="JobQo" resultType="Integer">
+        SELECT COUNT(1) FROM job t
+        <include refid="condition"/>
+    </select>
+
+    <select id="getJobsByCondition" parameterType="JobQo" resultType="JobVo">
+        SELECT
+        t.*,
+        app.appName,
+        app.appKey,
+        worker_group.name AS workerGroupName
+        FROM job t
+        LEFT JOIN app ON t.appId=app.appId
+        LEFT JOIN worker_group ON t.workerGroupId=worker_group.id
+        <include refid="condition"/>
+        <if test="sort!=null and sort!='' and order!=null and order!=''">
+            ORDER BY ${sort} ${order}
+        </if>
+        <include refid="pager"/>
+    </select>
+
+    <select id="getAllJobIdAndName" resultType="Map" parameterType="List">
+        SELECT `jobId`,`jobName`,`status` FROM job
+        <if test="list.size()>0">
+            WHERE status IN
+            <foreach collection="list" item="status" open="(" close=")" separator=",">
+                #{status}
+            </foreach>
+        </if>
+
+    </select>
+
+    <!--<select id="getJobById" parameterType="Long" resultType="JobVo">-->
+    <!--SELECT job.*,-->
+    <!--job_schedule_expression.id as expressionId,-->
+    <!--job_schedule_expression.expressionType,-->
+    <!--job_schedule_expression.expression-->
+    <!--FROM job LEFT JOIN job_schedule_expression ON job.jobId=job_schedule_expression.jobId-->
+    <!--WHERE job.jobId=#{jobId} limit 1-->
+    <!--</select>-->
+
+    <select id="getJobById" parameterType="Long" resultType="JobVo">
+        SELECT a.*,
+        b.id as expressionId,
+        b.expressionType,
+        b.expression,
+        app.appName,
+        c.id as scriptId,
+        c.title as scriptTitle,
+        c.content as scriptContent
+        FROM job a
+        LEFT JOIN app ON a.appId=app.appId
+        LEFT JOIN job_schedule_expression b  ON a.jobId=b.jobId
+        LEFT JOIN ironman.script  c ON a.contentType = 2 and c.id = a.content and c.status = 0
+        WHERE a.jobId=#{jobId} limit 1
+    </select>
+
+    <select id="getJobByName" parameterType="String" resultType="JobVo">
+        SELECT * FROM job WHERE jobName=#{_parameter} limit 0,1
+    </select>
+
+    <select id="getJobIds" resultType="Long">
+      SELECT DISTINCT jobId FROM job;
+    </select>
+
+    <select id="getJobNames" resultType="String">
+      SELECT DISTINCT jobName FROM job;
+    </select>
+
+    <select id="getSubmitUsers" resultType="String">
+      SELECT DISTINCT submitUser FROM job;
+    </select>
+
+    <select id="getSimilarJobIds" parameterType="Long" resultType="Long">
+        SELECT DISTINCT jobId FROM job
+        <where>
+            <if test="_parameter!=null">
+                jobId LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getSimilarJobNames" parameterType="String" resultType="String">
+        SELECT DISTINCT jobName FROM job
+        <where>
+            <if test="_parameter!=null and _parameter!=''">
+                jobName LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getJobBySimilarNames" parameterType="String" resultType="JobVo">
+        SELECT DISTINCT jobId,jobName,status FROM job
+        <where>
+            <if test="_parameter!=null and _parameter!=''">
+                jobName LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getJobByIds" resultType="JobVo">
+        SELECT * FROM job WHERE jobId IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

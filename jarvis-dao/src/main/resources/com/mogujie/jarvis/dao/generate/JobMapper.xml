@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mogujie.jarvis.dao.generate.JobMapper">
+  <resultMap id="BaseResultMap" type="com.mogujie.jarvis.dto.generate.Job">
+    <id column="jobId" jdbcType="BIGINT" property="jobId" />
+    <result column="jobName" jdbcType="VARCHAR" property="jobName" />
+    <result column="jobType" jdbcType="VARCHAR" property="jobType" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="contentType" jdbcType="INTEGER" property="contentType" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="submitUser" jdbcType="VARCHAR" property="submitUser" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="isSerial" jdbcType="BIT" property="isSerial" />
+    <result column="isTemp" jdbcType="BIT" property="isTemp" />
+    <result column="appId" jdbcType="INTEGER" property="appId" />
+    <result column="workerGroupId" jdbcType="INTEGER" property="workerGroupId" />
+    <result column="departmentId" jdbcType="INTEGER" property="departmentId" />
+    <result column="bizGroups" jdbcType="VARCHAR" property="bizGroups" />
+    <result column="activeStartDate" jdbcType="TIMESTAMP" property="activeStartDate" />
+    <result column="activeEndDate" jdbcType="TIMESTAMP" property="activeEndDate" />
+    <result column="expiredTime" jdbcType="INTEGER" property="expiredTime" />
+    <result column="failedAttempts" jdbcType="INTEGER" property="failedAttempts" />
+    <result column="failedInterval" jdbcType="INTEGER" property="failedInterval" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mogujie.jarvis.dto.generate.Job">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    jobId, jobName, jobType, status, contentType, params, submitUser, priority, isSerial, 
+    isTemp, appId, workerGroupId, departmentId, bizGroups, activeStartDate, activeEndDate, 
+    expiredTime, failedAttempts, failedInterval, createTime, updateTime, updateUser
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.mogujie.jarvis.dto.generate.JobExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.mogujie.jarvis.dto.generate.JobExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from job
+    where jobId = #{jobId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from job
+    where jobId = #{jobId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mogujie.jarvis.dto.generate.JobExample">
+    delete from job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mogujie.jarvis.dto.generate.Job">
+    <selectKey keyProperty="jobId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into job (jobName, jobType, status, 
+      contentType, params, submitUser, 
+      priority, isSerial, isTemp, 
+      appId, workerGroupId, departmentId, 
+      bizGroups, activeStartDate, activeEndDate, 
+      expiredTime, failedAttempts, failedInterval, 
+      createTime, updateTime, updateUser, 
+      content)
+    values (#{jobName,jdbcType=VARCHAR}, #{jobType,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{contentType,jdbcType=INTEGER}, #{params,jdbcType=VARCHAR}, #{submitUser,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=INTEGER}, #{isSerial,jdbcType=BIT}, #{isTemp,jdbcType=BIT}, 
+      #{appId,jdbcType=INTEGER}, #{workerGroupId,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER}, 
+      #{bizGroups,jdbcType=VARCHAR}, #{activeStartDate,jdbcType=TIMESTAMP}, #{activeEndDate,jdbcType=TIMESTAMP}, 
+      #{expiredTime,jdbcType=INTEGER}, #{failedAttempts,jdbcType=INTEGER}, #{failedInterval,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mogujie.jarvis.dto.generate.Job">
+    <selectKey keyProperty="jobId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into job
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobName != null">
+        jobName,
+      </if>
+      <if test="jobType != null">
+        jobType,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="contentType != null">
+        contentType,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="submitUser != null">
+        submitUser,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="isSerial != null">
+        isSerial,
+      </if>
+      <if test="isTemp != null">
+        isTemp,
+      </if>
+      <if test="appId != null">
+        appId,
+      </if>
+      <if test="workerGroupId != null">
+        workerGroupId,
+      </if>
+      <if test="departmentId != null">
+        departmentId,
+      </if>
+      <if test="bizGroups != null">
+        bizGroups,
+      </if>
+      <if test="activeStartDate != null">
+        activeStartDate,
+      </if>
+      <if test="activeEndDate != null">
+        activeEndDate,
+      </if>
+      <if test="expiredTime != null">
+        expiredTime,
+      </if>
+      <if test="failedAttempts != null">
+        failedAttempts,
+      </if>
+      <if test="failedInterval != null">
+        failedInterval,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="updateUser != null">
+        updateUser,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobName != null">
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null">
+        #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=INTEGER},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="submitUser != null">
+        #{submitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="isSerial != null">
+        #{isSerial,jdbcType=BIT},
+      </if>
+      <if test="isTemp != null">
+        #{isTemp,jdbcType=BIT},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=INTEGER},
+      </if>
+      <if test="workerGroupId != null">
+        #{workerGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="bizGroups != null">
+        #{bizGroups,jdbcType=VARCHAR},
+      </if>
+      <if test="activeStartDate != null">
+        #{activeStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeEndDate != null">
+        #{activeEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredTime != null">
+        #{expiredTime,jdbcType=INTEGER},
+      </if>
+      <if test="failedAttempts != null">
+        #{failedAttempts,jdbcType=INTEGER},
+      </if>
+      <if test="failedInterval != null">
+        #{failedInterval,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mogujie.jarvis.dto.generate.JobExample" resultType="java.lang.Integer">
+    select count(*) from job
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update job
+    <set>
+      <if test="record.jobId != null">
+        jobId = #{record.jobId,jdbcType=BIGINT},
+      </if>
+      <if test="record.jobName != null">
+        jobName = #{record.jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobType != null">
+        jobType = #{record.jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.contentType != null">
+        contentType = #{record.contentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submitUser != null">
+        submitUser = #{record.submitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null">
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.isSerial != null">
+        isSerial = #{record.isSerial,jdbcType=BIT},
+      </if>
+      <if test="record.isTemp != null">
+        isTemp = #{record.isTemp,jdbcType=BIT},
+      </if>
+      <if test="record.appId != null">
+        appId = #{record.appId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workerGroupId != null">
+        workerGroupId = #{record.workerGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.departmentId != null">
+        departmentId = #{record.departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bizGroups != null">
+        bizGroups = #{record.bizGroups,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activeStartDate != null">
+        activeStartDate = #{record.activeStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.activeEndDate != null">
+        activeEndDate = #{record.activeEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expiredTime != null">
+        expiredTime = #{record.expiredTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.failedAttempts != null">
+        failedAttempts = #{record.failedAttempts,jdbcType=INTEGER},
+      </if>
+      <if test="record.failedInterval != null">
+        failedInterval = #{record.failedInterval,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        updateUser = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update job
+    set jobId = #{record.jobId,jdbcType=BIGINT},
+      jobName = #{record.jobName,jdbcType=VARCHAR},
+      jobType = #{record.jobType,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      contentType = #{record.contentType,jdbcType=INTEGER},
+      params = #{record.params,jdbcType=VARCHAR},
+      submitUser = #{record.submitUser,jdbcType=VARCHAR},
+      priority = #{record.priority,jdbcType=INTEGER},
+      isSerial = #{record.isSerial,jdbcType=BIT},
+      isTemp = #{record.isTemp,jdbcType=BIT},
+      appId = #{record.appId,jdbcType=INTEGER},
+      workerGroupId = #{record.workerGroupId,jdbcType=INTEGER},
+      departmentId = #{record.departmentId,jdbcType=INTEGER},
+      bizGroups = #{record.bizGroups,jdbcType=VARCHAR},
+      activeStartDate = #{record.activeStartDate,jdbcType=TIMESTAMP},
+      activeEndDate = #{record.activeEndDate,jdbcType=TIMESTAMP},
+      expiredTime = #{record.expiredTime,jdbcType=INTEGER},
+      failedAttempts = #{record.failedAttempts,jdbcType=INTEGER},
+      failedInterval = #{record.failedInterval,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{record.updateUser,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update job
+    set jobId = #{record.jobId,jdbcType=BIGINT},
+      jobName = #{record.jobName,jdbcType=VARCHAR},
+      jobType = #{record.jobType,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      contentType = #{record.contentType,jdbcType=INTEGER},
+      params = #{record.params,jdbcType=VARCHAR},
+      submitUser = #{record.submitUser,jdbcType=VARCHAR},
+      priority = #{record.priority,jdbcType=INTEGER},
+      isSerial = #{record.isSerial,jdbcType=BIT},
+      isTemp = #{record.isTemp,jdbcType=BIT},
+      appId = #{record.appId,jdbcType=INTEGER},
+      workerGroupId = #{record.workerGroupId,jdbcType=INTEGER},
+      departmentId = #{record.departmentId,jdbcType=INTEGER},
+      bizGroups = #{record.bizGroups,jdbcType=VARCHAR},
+      activeStartDate = #{record.activeStartDate,jdbcType=TIMESTAMP},
+      activeEndDate = #{record.activeEndDate,jdbcType=TIMESTAMP},
+      expiredTime = #{record.expiredTime,jdbcType=INTEGER},
+      failedAttempts = #{record.failedAttempts,jdbcType=INTEGER},
+      failedInterval = #{record.failedInterval,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mogujie.jarvis.dto.generate.Job">
+    update job
+    <set>
+      <if test="jobName != null">
+        jobName = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null">
+        jobType = #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="contentType != null">
+        contentType = #{contentType,jdbcType=INTEGER},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="submitUser != null">
+        submitUser = #{submitUser,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="isSerial != null">
+        isSerial = #{isSerial,jdbcType=BIT},
+      </if>
+      <if test="isTemp != null">
+        isTemp = #{isTemp,jdbcType=BIT},
+      </if>
+      <if test="appId != null">
+        appId = #{appId,jdbcType=INTEGER},
+      </if>
+      <if test="workerGroupId != null">
+        workerGroupId = #{workerGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        departmentId = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="bizGroups != null">
+        bizGroups = #{bizGroups,jdbcType=VARCHAR},
+      </if>
+      <if test="activeStartDate != null">
+        activeStartDate = #{activeStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activeEndDate != null">
+        activeEndDate = #{activeEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredTime != null">
+        expiredTime = #{expiredTime,jdbcType=INTEGER},
+      </if>
+      <if test="failedAttempts != null">
+        failedAttempts = #{failedAttempts,jdbcType=INTEGER},
+      </if>
+      <if test="failedInterval != null">
+        failedInterval = #{failedInterval,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        updateUser = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where jobId = #{jobId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mogujie.jarvis.dto.generate.Job">
+    update job
+    set jobName = #{jobName,jdbcType=VARCHAR},
+      jobType = #{jobType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      contentType = #{contentType,jdbcType=INTEGER},
+      params = #{params,jdbcType=VARCHAR},
+      submitUser = #{submitUser,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      isSerial = #{isSerial,jdbcType=BIT},
+      isTemp = #{isTemp,jdbcType=BIT},
+      appId = #{appId,jdbcType=INTEGER},
+      workerGroupId = #{workerGroupId,jdbcType=INTEGER},
+      departmentId = #{departmentId,jdbcType=INTEGER},
+      bizGroups = #{bizGroups,jdbcType=VARCHAR},
+      activeStartDate = #{activeStartDate,jdbcType=TIMESTAMP},
+      activeEndDate = #{activeEndDate,jdbcType=TIMESTAMP},
+      expiredTime = #{expiredTime,jdbcType=INTEGER},
+      failedAttempts = #{failedAttempts,jdbcType=INTEGER},
+      failedInterval = #{failedInterval,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{updateUser,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where jobId = #{jobId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.Job">
+    update job
+    set jobName = #{jobName,jdbcType=VARCHAR},
+      jobType = #{jobType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      contentType = #{contentType,jdbcType=INTEGER},
+      params = #{params,jdbcType=VARCHAR},
+      submitUser = #{submitUser,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      isSerial = #{isSerial,jdbcType=BIT},
+      isTemp = #{isTemp,jdbcType=BIT},
+      appId = #{appId,jdbcType=INTEGER},
+      workerGroupId = #{workerGroupId,jdbcType=INTEGER},
+      departmentId = #{departmentId,jdbcType=INTEGER},
+      bizGroups = #{bizGroups,jdbcType=VARCHAR},
+      activeStartDate = #{activeStartDate,jdbcType=TIMESTAMP},
+      activeEndDate = #{activeEndDate,jdbcType=TIMESTAMP},
+      expiredTime = #{expiredTime,jdbcType=INTEGER},
+      failedAttempts = #{failedAttempts,jdbcType=INTEGER},
+      failedInterval = #{failedInterval,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{updateUser,jdbcType=VARCHAR}
+    where jobId = #{jobId,jdbcType=BIGINT}
+  </update>
+</mapper>

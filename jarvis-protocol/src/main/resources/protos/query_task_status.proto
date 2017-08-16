@@ -1,0 +1,16 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "QueryTaskStatusProtos";
+
+
+message RestServerQueryTaskStatusRequest {
+    required AppAuth app_auth = 1;
+    required int64 task_id = 2;
+}
+
+message ServerQueryTaskStatusResponse {
+    required bool success = 1;
+    optional int32 status = 2;
+    optional string message = 3 [default = ""];
+}

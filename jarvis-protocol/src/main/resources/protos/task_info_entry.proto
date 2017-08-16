@@ -1,0 +1,15 @@
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "TaskInfoEntryProtos";
+
+message TaskInfoEntry {
+	required int64 task_id = 1; 
+	required int64 job_id = 2; 
+    required string job_name = 3;
+	required int64 scheduleTime = 4;
+	required int64 dataTime = 5;
+	required int64 startTime = 6;
+	required int64 endTime = 7;
+	required float avgTime = 8;
+	required float useTime = 9;
+	required int32 status = 10;
+}

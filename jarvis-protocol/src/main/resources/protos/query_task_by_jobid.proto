@@ -1,0 +1,20 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "QueryTaskByJobIdProtos";
+
+message TaskEntry {
+	required int64 task_id = 1;
+	required int32 attempt_id = 2;
+}
+
+message RestServerQueryTaskByJobIdRequest {
+    required AppAuth app_auth = 1;
+    required int64 job_id = 2;
+}
+
+message ServerQueryTaskByJobIdResponse {
+    required bool success = 1;
+    repeated TaskEntry task_entry = 2;
+    optional string message = 3 [default = ""];
+}

@@ -1,0 +1,30 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "SystemProtos";
+
+
+message RestUpdateSystemStatusRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 status = 3;
+}
+
+
+message ServerUpdateSystemStatusResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+
+message RestGetSystemStatusRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+}
+
+message ServerGetSystemStatusResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+    optional int32 status = 3;
+
+}

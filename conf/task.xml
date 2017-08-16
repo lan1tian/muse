@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<strategies>
+		<strategy>com.mogujie.jarvis.worker.strategy.impl.CpuAcceptanceStrategy</strategy>
+		<strategy>com.mogujie.jarvis.worker.strategy.impl.TaskNumAcceptanceStrategy</strategy>
+		<strategy>com.mogujie.jarvis.worker.strategy.impl.LoadAcceptanceStrategy</strategy>
+	    <strategy>com.mogujie.jarvis.worker.strategy.impl.MemoryAcceptanceStrategy</strategy>
+	</strategies>
+
+	<tasks>
+		<task type="hive" class="com.mogujie.jarvis.tasks.shell.HiveShellTask">
+			<lookup class="com.mogujie.jarvis.worker.status.lookup.ShellStatusLookup" />
+			<strategies>
+				<strategy>com.mogujie.jarvis.worker.strategy.impl.YarnMemoryAcceptanceStrategy
+				</strategy>
+			</strategies>
+		</task>
+		<task type="shell" class="com.mogujie.jarvis.tasks.shell.ShellTask" />
+		<task type="presto" class="com.mogujie.jarvis.tasks.jdbc.PrestoJdbcTask" />
+		<task type="dummy" class="com.mogujie.jarvis.tasks.DummyTask" />
+
+	</tasks>
+</configuration>

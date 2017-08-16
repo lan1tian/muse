@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.WorkerMapper">
+
+
+
+    <sql id="workerCondition">
+        <where>
+            <if test="workerGroupId!=null">
+                workerGroupId=#{workerGroupId}
+            </if>
+            <if test="ip!=null and ip!=''">
+                AND ip=#{ip}
+            </if>
+            <if test="port!=null">
+                AND port=#{port}
+            </if>
+            <if test="status!=null">
+                AND worker.status=#{status}
+            </if>
+        </where>
+    </sql>
+
+
+    <sql id="pager">
+        <if test="offset!=null and limit!=null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+    <!--========================================================-->
+
+    <select id="getWorkerById" parameterType="Integer" resultType="WorkerVo">
+        SELECT * FROM worker WHERE id=#{id}
+    </select>
+    <select id="getWorkerByIpAndPort" parameterType="Map" resultType="WorkerVo">
+        SELECT * FROM worker where ip=#{ip} AND port=#{port} limit 0,1;
+    </select>
+    <select id="getWorkerCount" parameterType="WorkerQo" resultType="Integer">
+        SELECT count(1) FROM worker
+         <include refid="workerCondition" />
+    </select>
+
+    <select id="getWorkerList" parameterType="WorkerQo" resultType="WorkerVo">
+        SELECT worker.*,
+        worker_group.name AS workerGroupName
+        FROM worker LEFT JOIN worker_group ON worker.workerGroupId=worker_group.id
+        <include refid="workerCondition" />
+        <include refid="pager" />
+    </select>
+
+    <select id="getAllWorkerIp" resultType="String">
+        SELECT DISTINCT ip FROM worker;
+    </select>
+    <select id="getAllWorkerPort" resultType="Integer">
+        SELECT DISTINCT port FROM worker;
+    </select>
+    
+
+</mapper>

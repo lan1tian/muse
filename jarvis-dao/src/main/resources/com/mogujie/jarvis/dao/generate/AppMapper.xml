@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mogujie.jarvis.dao.generate.AppMapper">
+  <resultMap id="BaseResultMap" type="com.mogujie.jarvis.dto.generate.App">
+    <id column="appId" jdbcType="INTEGER" property="appId" />
+    <result column="appName" jdbcType="VARCHAR" property="appName" />
+    <result column="appKey" jdbcType="VARCHAR" property="appKey" />
+    <result column="appType" jdbcType="INTEGER" property="appType" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="maxConcurrency" jdbcType="INTEGER" property="maxConcurrency" />
+    <result column="owner" jdbcType="VARCHAR" property="owner" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    appId, appName, appKey, appType, status, maxConcurrency, owner, createTime, updateTime, 
+    updateUser
+  </sql>
+  <select id="selectByExample" parameterType="com.mogujie.jarvis.dto.generate.AppExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from app
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app
+    where appId = #{appId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app
+    where appId = #{appId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mogujie.jarvis.dto.generate.AppExample">
+    delete from app
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mogujie.jarvis.dto.generate.App">
+    <selectKey keyProperty="appId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app (appName, appKey, appType, 
+      status, maxConcurrency, owner, 
+      createTime, updateTime, updateUser
+      )
+    values (#{appName,jdbcType=VARCHAR}, #{appKey,jdbcType=VARCHAR}, #{appType,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{maxConcurrency,jdbcType=INTEGER}, #{owner,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mogujie.jarvis.dto.generate.App">
+    <selectKey keyProperty="appId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appName != null">
+        appName,
+      </if>
+      <if test="appKey != null">
+        appKey,
+      </if>
+      <if test="appType != null">
+        appType,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="maxConcurrency != null">
+        maxConcurrency,
+      </if>
+      <if test="owner != null">
+        owner,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="updateUser != null">
+        updateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appName != null">
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appKey != null">
+        #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="appType != null">
+        #{appType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="maxConcurrency != null">
+        #{maxConcurrency,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mogujie.jarvis.dto.generate.AppExample" resultType="java.lang.Integer">
+    select count(*) from app
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update app
+    <set>
+      <if test="record.appId != null">
+        appId = #{record.appId,jdbcType=INTEGER},
+      </if>
+      <if test="record.appName != null">
+        appName = #{record.appName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appKey != null">
+        appKey = #{record.appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appType != null">
+        appType = #{record.appType,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxConcurrency != null">
+        maxConcurrency = #{record.maxConcurrency,jdbcType=INTEGER},
+      </if>
+      <if test="record.owner != null">
+        owner = #{record.owner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        updateUser = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update app
+    set appId = #{record.appId,jdbcType=INTEGER},
+      appName = #{record.appName,jdbcType=VARCHAR},
+      appKey = #{record.appKey,jdbcType=VARCHAR},
+      appType = #{record.appType,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      maxConcurrency = #{record.maxConcurrency,jdbcType=INTEGER},
+      owner = #{record.owner,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mogujie.jarvis.dto.generate.App">
+    update app
+    <set>
+      <if test="appName != null">
+        appName = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appKey != null">
+        appKey = #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="appType != null">
+        appType = #{appType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="maxConcurrency != null">
+        maxConcurrency = #{maxConcurrency,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null">
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        updateUser = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where appId = #{appId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.App">
+    update app
+    set appName = #{appName,jdbcType=VARCHAR},
+      appKey = #{appKey,jdbcType=VARCHAR},
+      appType = #{appType,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      maxConcurrency = #{maxConcurrency,jdbcType=INTEGER},
+      owner = #{owner,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{updateUser,jdbcType=VARCHAR}
+    where appId = #{appId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,66 @@
+import "app_auth.proto";
+import "alarm_entry.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "AlarmProtos";
+
+message RestCreateAlarmRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int64 job_id = 3;
+    required string alarmType = 4;
+    required string reciever = 5;
+    optional int32 status = 6;
+}
+
+message ServerCreateAlarmResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestModifyAlarmRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    optional int64 job_id=3;
+    optional string alarmType = 4;
+    optional string reciever = 5;
+    optional int32 status = 6;
+}
+
+message ServerModifyAlarmResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestDeleteAlarmRequest{
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int64 job_id = 3;
+}
+
+message ServerDeleteAlarmResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestQueryAlarmsRequest{
+    optional string job_ids = 1;
+}
+
+message ServerQueryAlarmsReponst{
+    repeated AlarmEntry alarm_list = 1;
+    required bool success = 2;
+    optional string message = 3 [default = ""];
+
+}
+
+message RestServerUpdateTaskAlarmStatusRequest{
+    required AppAuth app_auth = 1;
+    repeated int64 task_id = 2;
+    required int32 alarm_status = 3;
+}
+
+message ServerUpdateTaskAlarmStatusResponse{
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}

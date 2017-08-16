@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.OperationMapper">
+
+  <sql id="condition">
+    <where>
+      <if test="startOperDate!=null and startOperDate!=''">
+        AND opeDate>=#{startOperDate}
+      </if>
+      <if test="endOperDate!=null and endOperDate!=''">
+        <![CDATA[
+        AND opeDate<#{endOperDate}
+        ]]>
+      </if>
+      <if test="endOperDate!=null and endOperDate!=''">
+        <![CDATA[
+        AND opeDate<#{endOperDate}
+        ]]>
+      </if>
+      <if test="titleList!=null and titleList.size()>0">
+        title IN
+        <foreach collection="titleList" item="title" open="(" close=")" separator=",">
+          #{title}
+        </foreach>
+      </if>
+      <if test="operatorList!=null">
+        operator IN
+        <foreach collection="operatorList" item="operator" open="(" close=")" separator=",">
+          #{operator}
+        </foreach>
+      </if>
+      <if test="operationType!=null and operationType!=''">
+        operationType = #{operationType}
+      </if>
+    </where>
+  </sql>
+  <sql id="pager">
+    <if test="offset!=null and limit!=null">
+      limit #{offset},#{limit}
+    </if>
+  </sql>
+
+  <select id="getCountByCondition" parameterType="OperationQo" resultType="Integer">
+    SELECT COUNT(1) FROM operation_log
+    <include refid="condition"/>
+  </select>
+
+  <select id="getOperationsByCondition" parameterType="OperationQo" resultType="OperationVo">
+    SELECT
+    t.*
+    FROM operation_log t
+    <include refid="condition"/>
+    ORDER BY t.opeDate DESC
+    <include refid="pager"/>
+  </select>
+
+  <select id="getAllOperationTitles" parameterType="String" resultType="String">
+    SELECT DISTINCT title FROM operation_log
+    <where>
+      <if test="title != null">
+        title LIKE '%${title}%'
+      </if>
+    </where>
+  </select>
+
+  <select id="getSimilarOperationTitle" parameterType="String" resultType="String">
+    SELECT DISTINCT title FROM operation_log
+    <where>
+      <if test="_parameter!=null and _parameter!=''">
+        title LIKE '%${_parameter}%'
+      </if>
+    </where>
+  </select>
+
+  <select id="getAllOperators" parameterType="String" resultType="String">
+    SELECT DISTINCT operator FROM operation_log
+    <where>
+      <if test="operator != null">
+        operator LIKE '%{operator}%'
+      </if>
+    </where>
+  </select>
+
+  <select id="getAllOperationType" parameterType="String" resultType="String">
+    SELECT DISTINCT operationType FROM operation_log
+    <where>
+      <if test="operationType != null">
+        operationType LIKE '%{operationType}%'
+      </if>
+    </where>
+  </select>
+
+</mapper>

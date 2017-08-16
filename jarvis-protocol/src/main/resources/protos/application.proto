@@ -1,0 +1,87 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "ApplicationProtos";
+
+//add app
+message RestCreateApplicationRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required string app_name = 3;
+    required string owner = 4;
+    optional int32 status = 5;
+    optional int32 max_concurrency = 6 [default = 10];
+}
+
+message ServerCreateApplicationResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+    optional int32 appId = 3;
+}
+
+//modify app
+message RestModifyApplicationRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 app_id = 3;
+    optional string app_name = 4;
+    optional string owner = 5;
+    optional int32 status = 6;
+    optional int32 max_concurrency = 7;
+}
+
+message ServerModifyApplicationResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+
+//delete app
+message RestDeleteApplicationRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 app_id = 3;
+}
+
+message ServerDeleteApplicationResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+
+
+message AppWorkerGroupEntry{
+    required int32 app_id = 1;
+    required int32 worker_group_id = 2;
+}
+
+//setting app & workerGroup
+message RestSetApplicationWorkerGroupRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 mode = 3;   //1:ADD; 2:EDIT; 3:DELETE
+    repeated AppWorkerGroupEntry AppWorkerGroups = 4;
+}
+
+message ServerSetApplicationWorkerGroupResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+
+// search app counter
+message AppCounterEntry {
+	required int32 app_id = 1;
+	required int32 counter = 2;
+}
+
+message RestSearchAppCounterRequest {
+	required AppAuth app_auth = 1;
+    required string user = 2;
+}
+
+message ServerSearchAppCounterResponse {
+	required bool success = 1;
+	repeated AppCounterEntry app_counter_entry = 2;
+    optional string message = 3 [default = ""];
+}

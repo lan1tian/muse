@@ -1,0 +1,21 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "QueryTaskRelationProtos";
+
+message TaskMapEntry {
+  	required int64 job_id = 1;
+  	repeated int64 task_id = 2;
+}
+
+message RestServerQueryTaskRelationRequest {
+    required AppAuth app_auth = 1;
+    required int64 task_id = 2;
+    required int32 relation_type = 3;
+}
+
+message ServerQueryTaskRelationResponse {
+	repeated TaskMapEntry task_relation_map = 1;
+    required bool success = 2;
+    optional string message = 3 [default = ""];
+}

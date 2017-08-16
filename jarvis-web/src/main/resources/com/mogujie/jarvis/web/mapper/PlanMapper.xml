@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.PlanMapper">
+
+    <sql id="pager">
+        <if test="offset!=null and limit!=null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+    <sql id="planCondition">
+        <where>
+            <if test="jobIdList!=null">
+                job.jobId IN
+                <foreach collection="jobIdList" item="jobId" open="(" close=")" separator=",">
+                    #{jobId}
+                </foreach>
+            </if>
+            <if test="jobNameList!=null and jobNameList!=''">
+                AND
+                <foreach collection="jobNameList" item="jobName" open="(" close=")" separator="OR">
+                    jobName LIKE CONCAT('%',#{jobName},'%' )
+                </foreach>
+            </if>
+            <if test="jobTypeList!=null and jobTypeList!=''">
+                AND jobType IN
+                <foreach collection="jobTypeList" item="jobType" open="(" close=")" separator=",">
+                    #{jobType}
+                </foreach>
+            </if>
+            <if test="priorityList!=null">
+                AND priority IN
+                <foreach collection="priorityList" item="priority" open="(" close=")" separator=",">
+                    #{priority}
+                </foreach>
+            </if>
+            <if test="executeUserList!=null and executeUserList.size()>0">
+                AND submitUser IN
+                <foreach collection="executeUserList" item="executeUser" open="(" close=")" separator=",">
+                    #{executeUser}
+                </foreach>
+            </if>
+            <if test="dataTime!=null">
+                AND dataTime=#{dataTime}
+            </if>
+            <if test="taskStatusList!=null and taskStatusList.size()>0">
+                AND
+                <foreach collection="taskStatusList" item="status" open="(" close=")" separator="OR">
+                    <choose>
+                        <when test="status==0">
+                            status IS NULL
+                        </when>
+                        <otherwise>
+                            status=#{status}
+                        </otherwise>
+                    </choose>
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPlanCountByCondition" parameterType="PlanQo" resultType="Integer">
+        SELECT COUNT(1)
+          FROM plan LEFT JOIN job ON plan.jobId=job.jobId
+            LEFT JOIN app ON job.appId = app.appId
+              LEFT JOIN worker_group on job.workerGroupId = worker_group.id
+        <include refid="planCondition"/>
+    </select>
+
+    <select id="getPlansByCondition" parameterType="PlanQo" resultType="PlanVo">
+        SELECT
+        plan.jobId,
+        plan.planTime as scheduleTime,
+        job.jobName,
+        job.jobType,
+        job.priority,
+        job.submitUser,
+        job.appId,
+        job.workerGroupId,
+        job.bizGroups,
+        job.createTime,
+        job.updateTime,
+        app.appName,
+        worker_group.name as workerGroupName
+        FROM plan LEFT JOIN job ON plan.jobId=job.jobId
+        LEFT JOIN app ON job.appId = app.appId
+        LEFT JOIN worker_group on job.workerGroupId = worker_group.id
+        <include refid="planCondition"/>
+        <choose>
+            <when test="sort!=null and sort!='' and order!=null and order!=''">
+                ORDER BY ${sort} ${order}
+            </when>
+            <otherwise>
+                ORDER BY scheduleTime ASC
+            </otherwise>
+        </choose>
+
+
+        <include refid="pager"/>
+    </select>
+
+    <select id="getRecentTasks" resultType="TaskVo" parameterType="list">
+        <foreach collection="list" item="jobId" open="" close="" separator="UNION">
+            (select jobId,executeStartTime, executeEndTime from task
+            where jobId = #{jobId}
+            and executeEndTime is not null and executeStartTime is not null order by executeEndTime DESC limit 10)
+        </foreach>
+    </select>
+
+
+
+</mapper>

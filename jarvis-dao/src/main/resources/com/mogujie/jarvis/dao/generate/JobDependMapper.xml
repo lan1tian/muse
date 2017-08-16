@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mogujie.jarvis.dao.generate.JobDependMapper">
+  <resultMap id="BaseResultMap" type="com.mogujie.jarvis.dto.generate.JobDepend">
+    <id column="jobId" jdbcType="BIGINT" property="jobId" />
+    <id column="preJobId" jdbcType="BIGINT" property="preJobId" />
+    <result column="commonStrategy" jdbcType="INTEGER" property="commonStrategy" />
+    <result column="offsetStrategy" jdbcType="VARCHAR" property="offsetStrategy" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    jobId, preJobId, commonStrategy, offsetStrategy, createTime, updateTime, updateUser
+  </sql>
+  <select id="selectByExample" parameterType="com.mogujie.jarvis.dto.generate.JobDependExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from job_depend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.JobDependKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from job_depend
+    where jobId = #{jobId,jdbcType=BIGINT}
+      and preJobId = #{preJobId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.JobDependKey">
+    delete from job_depend
+    where jobId = #{jobId,jdbcType=BIGINT}
+      and preJobId = #{preJobId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mogujie.jarvis.dto.generate.JobDependExample">
+    delete from job_depend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mogujie.jarvis.dto.generate.JobDepend">
+    insert into job_depend (jobId, preJobId, commonStrategy, 
+      offsetStrategy, createTime, updateTime, 
+      updateUser)
+    values (#{jobId,jdbcType=BIGINT}, #{preJobId,jdbcType=BIGINT}, #{commonStrategy,jdbcType=INTEGER}, 
+      #{offsetStrategy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mogujie.jarvis.dto.generate.JobDepend">
+    insert into job_depend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        jobId,
+      </if>
+      <if test="preJobId != null">
+        preJobId,
+      </if>
+      <if test="commonStrategy != null">
+        commonStrategy,
+      </if>
+      <if test="offsetStrategy != null">
+        offsetStrategy,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="updateUser != null">
+        updateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        #{jobId,jdbcType=BIGINT},
+      </if>
+      <if test="preJobId != null">
+        #{preJobId,jdbcType=BIGINT},
+      </if>
+      <if test="commonStrategy != null">
+        #{commonStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="offsetStrategy != null">
+        #{offsetStrategy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mogujie.jarvis.dto.generate.JobDependExample" resultType="java.lang.Integer">
+    select count(*) from job_depend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update job_depend
+    <set>
+      <if test="record.jobId != null">
+        jobId = #{record.jobId,jdbcType=BIGINT},
+      </if>
+      <if test="record.preJobId != null">
+        preJobId = #{record.preJobId,jdbcType=BIGINT},
+      </if>
+      <if test="record.commonStrategy != null">
+        commonStrategy = #{record.commonStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="record.offsetStrategy != null">
+        offsetStrategy = #{record.offsetStrategy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        updateUser = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update job_depend
+    set jobId = #{record.jobId,jdbcType=BIGINT},
+      preJobId = #{record.preJobId,jdbcType=BIGINT},
+      commonStrategy = #{record.commonStrategy,jdbcType=INTEGER},
+      offsetStrategy = #{record.offsetStrategy,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mogujie.jarvis.dto.generate.JobDepend">
+    update job_depend
+    <set>
+      <if test="commonStrategy != null">
+        commonStrategy = #{commonStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="offsetStrategy != null">
+        offsetStrategy = #{offsetStrategy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        updateUser = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where jobId = #{jobId,jdbcType=BIGINT}
+      and preJobId = #{preJobId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.JobDepend">
+    update job_depend
+    set commonStrategy = #{commonStrategy,jdbcType=INTEGER},
+      offsetStrategy = #{offsetStrategy,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{updateUser,jdbcType=VARCHAR}
+    where jobId = #{jobId,jdbcType=BIGINT}
+      and preJobId = #{preJobId,jdbcType=BIGINT}
+  </update>
+</mapper>

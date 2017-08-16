@@ -1,0 +1,22 @@
+{
+  "1":[
+    {"url":"/api/task/remove","text":"删除"}
+  ],
+  "2":[
+    {"url":"/api/task/remove","text":"删除"}
+  ],
+  "3":[
+    {"url":"/api/task/kill","text":"Kill"}
+  ],
+  "4":[
+
+  ],
+  "5":[
+    {"url":"/api/task/retry","text":"原地重跑"},
+    {"url":"/api/task/remove","text":"删除"}
+  ],
+  "6":[
+    {"url":"/api/task/retry","text":"原地重跑"},
+    {"url":"/api/task/remove","text":"删除"}
+  ]
+}

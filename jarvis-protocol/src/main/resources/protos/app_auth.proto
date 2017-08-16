@@ -1,0 +1,8 @@
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "AppAuthProtos";
+
+
+message AppAuth {
+  required string name = 1;
+  required string token = 2;
+}

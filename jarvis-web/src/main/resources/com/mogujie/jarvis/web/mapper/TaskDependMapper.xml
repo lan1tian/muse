@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.TaskDependMapper">
+
+    <select id="getTaskDependByIds" resultType="TaskDependVo">
+        SELECT
+        task.taskId,
+        task.jobId,
+        task.status,
+        task.scheduleTime,
+        task.executeStartTime,
+        task.executeEndTime,
+        task.executeUser,
+        time_to_sec(TIMEDIFF(task.executeEndTime,task.executeStartTime)) AS executeTime,
+        ifnull(task_depend.dependTaskIds,'{}') as dependTaskIds,
+        ifnull(task_depend.childTaskIds,'{}') as childTaskIds,
+        job.jobName
+        FROM task
+        LEFT JOIN task_depend ON task.taskId=task_depend.taskId
+        LEFT JOIN job ON task.jobId=job.jobId
+        WHERE task.taskId IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        ORDER BY task.jobId,task.taskId
+    </select>
+
+</mapper>

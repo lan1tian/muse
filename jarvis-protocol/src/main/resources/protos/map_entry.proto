@@ -1,0 +1,7 @@
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "MapEntryProtos";
+
+message MapEntry {
+  required string key = 1;
+  required string value = 2;
+}

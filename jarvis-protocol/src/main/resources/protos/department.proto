@@ -1,0 +1,82 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "DepartmentProtos";
+
+message RestCreateDepartmentRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required string name = 3;
+}
+message ServerCreateDepartmentResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+    optional int32 id = 3;
+}
+
+message RestModifyDepartmentRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 id = 3;
+    optional string name = 4;
+}
+message ServerModifyDepartmentResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestDeleteDepartmentRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 id = 3;
+}
+message ServerDeleteDepartmentResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestCreateDepartmentBizMapRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 department_id = 3;
+    required int32 biz_id = 4;
+}
+message ServerCreateDepartmentBizMapResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestDeleteDepartmentBizMapRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 department_id = 3;
+    required int32 biz_id = 4;
+}
+
+message ServerDeleteDepartmentBizMapResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestDeleteDepartmentBizMapByDepartmentIdRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 department_id = 3;
+}
+
+message ServerDeleteDepartmentBizMapByDepartmentIdResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message RestDeleteDepartmentBizMapByBizGroupIdRequest {
+      required AppAuth app_auth = 1;
+      required string user = 2;
+      required int32 biz_id = 3;
+}
+
+message ServerDeleteDepartmentBizMapByBizGroupIdResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+

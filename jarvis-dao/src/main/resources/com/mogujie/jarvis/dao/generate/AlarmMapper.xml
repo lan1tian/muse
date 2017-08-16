@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mogujie.jarvis.dao.generate.AlarmMapper">
+  <resultMap id="BaseResultMap" type="com.mogujie.jarvis.dto.generate.Alarm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="jobId" jdbcType="BIGINT" property="jobId" />
+    <result column="alarmType" jdbcType="VARCHAR" property="alarmType" />
+    <result column="receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, jobId, alarmType, receiver, status, createTime, updateTime, updateUser
+  </sql>
+  <select id="selectByExample" parameterType="com.mogujie.jarvis.dto.generate.AlarmExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from alarm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from alarm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from alarm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mogujie.jarvis.dto.generate.AlarmExample">
+    delete from alarm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mogujie.jarvis.dto.generate.Alarm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alarm (jobId, alarmType, receiver, 
+      status, createTime, updateTime, 
+      updateUser)
+    values (#{jobId,jdbcType=BIGINT}, #{alarmType,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mogujie.jarvis.dto.generate.Alarm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into alarm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        jobId,
+      </if>
+      <if test="alarmType != null">
+        alarmType,
+      </if>
+      <if test="receiver != null">
+        receiver,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="updateUser != null">
+        updateUser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobId != null">
+        #{jobId,jdbcType=BIGINT},
+      </if>
+      <if test="alarmType != null">
+        #{alarmType,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mogujie.jarvis.dto.generate.AlarmExample" resultType="java.lang.Integer">
+    select count(*) from alarm
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update alarm
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobId != null">
+        jobId = #{record.jobId,jdbcType=BIGINT},
+      </if>
+      <if test="record.alarmType != null">
+        alarmType = #{record.alarmType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiver != null">
+        receiver = #{record.receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        updateUser = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update alarm
+    set id = #{record.id,jdbcType=INTEGER},
+      jobId = #{record.jobId,jdbcType=BIGINT},
+      alarmType = #{record.alarmType,jdbcType=VARCHAR},
+      receiver = #{record.receiver,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mogujie.jarvis.dto.generate.Alarm">
+    update alarm
+    <set>
+      <if test="jobId != null">
+        jobId = #{jobId,jdbcType=BIGINT},
+      </if>
+      <if test="alarmType != null">
+        alarmType = #{alarmType,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        updateUser = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.Alarm">
+    update alarm
+    set jobId = #{jobId,jdbcType=BIGINT},
+      alarmType = #{alarmType,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      updateUser = #{updateUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

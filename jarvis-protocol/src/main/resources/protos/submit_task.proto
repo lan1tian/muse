@@ -1,0 +1,23 @@
+import "map_entry.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "SubmitTaskProtos";
+
+message ServerSubmitTaskRequest {
+    required string full_id = 1;
+    required string task_name = 2;
+    required string app_name = 3;
+    required string user = 4;
+    required string job_type = 5;
+    required string content = 6;
+    optional int32 priority = 7 [default = 1];
+    repeated MapEntry parameters = 8;
+    required int64 data_time = 9;
+}
+
+
+message WorkerSubmitTaskResponse {
+    optional bool accept = 1;
+    required bool success = 2;
+    optional string message = 3 [default = ""];
+}

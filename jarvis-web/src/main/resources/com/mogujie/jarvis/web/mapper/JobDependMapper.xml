@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.JobDependMapper">
+
+    <select id="getJobById" parameterType="Long" resultType="JobDependVo">
+        SELECT job.jobId
+              ,job.jobName
+              ,job.status
+              ,jobType
+              ,job.submitUser
+              ,job.priority
+              ,job.bizGroups
+              ,job.activeStartDate
+              ,job.activeEndDate
+              ,app.appName
+              ,app.appKey
+        FROM job
+        LEFT JOIN app ON job.appId=app.appId
+        WHERE jobId=#{jobId}
+    </select>
+
+    <select id="getChildrenById" parameterType="JobDependQo" resultType="JobDependVo">
+        SELECT job_depend.jobId
+              ,job.jobName
+              ,job.status
+              ,jobType
+              ,job.submitUser
+              ,job.priority
+              ,job.bizGroups
+              ,job.activeStartDate
+              ,job.activeEndDate
+              ,app.appName
+              ,app.appKey
+        FROM job_depend
+        LEFT JOIN job ON job_depend.jobId=job.jobId
+        LEFT JOIN app ON job.appId=app.appId
+        WHERE job_depend.preJobId=#{jobId}
+        <choose>
+            <when test="statusList!=null and statusList.size()>0">
+                AND job.status IN
+              <foreach collection="statusList" item="status" open="(" close=")" separator=",">
+                #{status}
+              </foreach>
+            </when>
+        </choose>
+    </select>
+
+
+    <select id="getChildrenCount" parameterType="JobDependQo" resultType="Map">
+        SELECT count(1) as cnt,job_depend.preJobId as jobId,status
+        FROM job_depend
+        LEFT JOIN job ON job_depend.jobId=job.jobId
+        WHERE
+        <choose>
+            <when test="jobIdList!=null and jobIdList.size()>0">
+                job_depend.preJobId IN
+                <foreach collection="jobIdList" item="jobId" open="(" close=")" separator=",">
+                  #{jobId}
+                </foreach>
+            </when>
+        </choose>
+
+        <choose>
+            <when test="statusList!=null and statusList.size()>0">
+                AND job.status IN
+                <foreach collection="statusList" item="status" open="(" close=")" separator=",">
+                    #{status}
+                </foreach>
+            </when>
+        </choose>
+        group by jobId
+    </select>
+
+    <select id="getParentById" parameterType="JobDependQo" resultType="JobDependVo">
+        SELECT job_depend.preJobId as jobId
+              ,job.jobName
+              ,job.status
+              ,jobType
+              ,job.submitUser
+              ,job.priority
+              ,job.bizGroups
+              ,job.activeStartDate
+              ,job.activeEndDate
+              ,app.appName
+              ,app.appKey
+              ,job_depend.commonStrategy
+              ,job_depend.offsetStrategy
+        FROM job_depend
+        LEFT JOIN job ON job_depend.preJobId=job.jobId
+        LEFT JOIN app ON job.appId=app.appId
+        WHERE job_depend.jobId=#{jobId}
+        <choose>
+            <when test="statusList!=null and statusList.size()>0">
+              AND job.status IN
+                <foreach collection="statusList" item="status" open="(" close=")" separator=",">
+                  #{status}
+                </foreach>
+            </when>
+        </choose>
+    </select>
+
+</mapper>

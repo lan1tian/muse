@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.TaskMapper">
+
+
+    <sql id="condition">
+        <where>
+            <if test="taskIdList!=null and taskIdList.size()>0">
+                task.taskId IN
+                <foreach collection="taskIdList" item="taskId" open="(" close=")" separator=",">
+                    #{taskId}
+                </foreach>
+            </if>
+            <if test="jobIdList!=null and jobIdList.size()>0">
+                job.jobId IN
+                <foreach collection="jobIdList" item="jobId" open="(" close=")" separator=",">
+                    #{jobId}
+                </foreach>
+            </if>
+            <if test="jobNameList!=null">
+                AND
+                <foreach collection="jobNameList" item="jobName" open="(" close=")" separator="OR">
+                    job.jobName LIKE concat('%',#{jobName},'%')
+                </foreach>
+            </if>
+            <if test="isTemp!=null and isTemp.size()>0">
+                AND
+                <foreach collection="isTemp" item="item" index="index" open="(" close=")" separator="OR">
+                    (job.isTemp=#{item})
+                </foreach>
+            </if>
+            <if test="jobTypeList!=null">
+                AND job.jobType IN
+                <foreach collection="jobTypeList" item="jobType" open="(" close=")" separator=",">
+                    #{jobType}
+                </foreach>
+            </if>
+            <if test="executeUserList!=null">
+                AND task.executeUser IN
+                <foreach collection="executeUserList" item="executeUser" open="(" close=")" separator=",">
+                    #{executeUser}
+                </foreach>
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                AND task.executeStartTime>=#{startDate}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                <![CDATA[
+                  AND task.executeEndTime<#{endDate}
+                ]]>
+            </if>
+            <if test="scheduleDate!=null and scheduleDate!=''">
+                <![CDATA[
+                  AND (task.scheduleTime>=#{scheduleDate} AND task.scheduleTime<DATE_ADD(#{scheduleDate},INTERVAL 1 DAY))
+                ]]>
+            </if>
+            <if test="executeDate!=null and executeDate!=''">
+                <![CDATA[
+                  AND task.executeStartTime>=#{executeDate} AND task.executeStartTime<=DATE_ADD(#{executeDate},INTERVAL 1 DAY)
+                ]]>
+
+            </if>
+            <if test="taskStatus!=null">
+                AND
+                <foreach collection="taskStatus" item="status" index="index" open="(" close=")" separator="OR">
+                    (task.status=#{status})
+                </foreach>
+            </if>
+
+        </where>
+    </sql>
+
+    <sql id="pager">
+        <if test="offset!=null and limit!=null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+    <sql id="order">
+        <if test="sort!=null and sort!=''">
+            <choose>
+                <when test="order!=null and order=='ASC'">
+                    ORDER BY #{sort} ASC
+                </when>
+                <when test="order!=null and order=='DESC'">
+                    ORDER BY #{sort} DESC
+                </when>
+                <otherwise>
+                    ORDER BY #{sort}
+                </otherwise>
+            </choose>
+
+        </if>
+    </sql>
+
+
+    <select id="getCountByCondition" parameterType="TaskQo" resultType="Integer">
+        SELECT COUNT(1) FROM task LEFT JOIN job ON task.jobId=job.jobId
+        <include refid="condition"/>
+    </select>
+
+    <select id="getTasksByCondition" parameterType="TaskQo" resultType="TaskVo">
+        SELECT task.*,
+        job.jobName,
+        job.jobType,
+        job.submitUser,
+        job.priority,
+        job.workerGroupId,
+        job.isTemp,
+        app.appName,
+        worker.ip,
+        time_to_sec(TIMEDIFF(task.executeEndTime,task.executeStartTime)) AS executeTime
+        FROM task LEFT JOIN job ON task.jobId=job.jobId LEFT JOIN app ON job.appId=app.appId
+        LEFT JOIN worker ON task.workerId=worker.id
+        <include refid="condition"/>
+        <choose>
+            <when test="sort!=null and sort!=''">
+                ORDER BY ${sort} ${order}
+            </when>
+            <otherwise>
+                ORDER BY scheduleTime DESC,executeEndTime DESC,executeStartTime DESC
+            </otherwise>
+        </choose>
+
+        <include refid="pager"/>
+    </select>
+
+    <select id="getTaskById" parameterType="Long" resultType="TaskVo">
+        SELECT
+          task.*,
+          job.jobType,
+          worker.ip,
+          time_to_sec(TIMEDIFF(task.executeEndTime,task.executeStartTime)) AS executeTime
+        FROM task
+          LEFT JOIN job ON task.jobId=job.jobId
+          LEFT JOIN worker ON task.workerId=worker.id
+        WHERE taskId=#{taskId} limit 1
+    </select>
+
+    <select id="getAllExecuteUser" resultType="String">
+        SELECT DISTINCT executeUser FROM (
+            SELECT DISTINCT executeUser FROM task UNION SELECT DISTINCT submitUser as executeUser FROM job
+        )t
+
+    </select>
+
+
+    <sql id="orderCondition">
+        <choose>
+            <when test="">
+
+            </when>
+            <when test="">
+
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="getTaskByIds" resultType="TaskVo">
+        SELECT task.*,
+        time_to_sec(TIMEDIFF(task.executeEndTime,task.executeStartTime)) AS executeTime,
+        job.jobName
+        FROM task
+        LEFT JOIN job ON task.jobId=job.jobId
+        WHERE taskId IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getRecentExecuteTaskByJobId" parameterType="List" resultType="TaskVo">
+        <foreach collection="list" item="jobId" open="" close="" separator="UNION">
+            (
+            SELECT taskId,jobId,status,scheduleTime,executeEndTime,executeStartTime
+            from task
+            where jobId=#{jobId} and status!=99
+            ORDER BY scheduleTime DESC limit 10
+            )
+        </foreach>
+    </select>
+
+    <select id="getTaskByJobIdBetweenTime" parameterType="map" resultType="TaskVo">
+        SELECT taskId,jobId,status,scheduleTime,executeEndTime,executeStartTime
+        from task
+        where
+        jobId IN
+        <foreach collection="jobIdList" item="jobId" open="(" close=")" separator=",">
+            #{jobId}
+        </foreach>
+        and status!=99
+        and scheduleTime between from_unixtime(#{startTime}) and from_unixtime(#{endTime})
+        ORDER BY jobId,scheduleTime
+    </select>
+
+
+</mapper>

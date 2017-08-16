@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.mogujie.jarvis</groupId>
+        <artifactId>jarvis-parent</artifactId>
+        <version>2.0.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>jarvis-worker</artifactId>
+    <name>jarvis-worker</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.mogujie.jarvis</groupId>
+            <artifactId>jarvis-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mogujie.jarvis</groupId>
+            <artifactId>jarvis-protocol</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mogujie.jarvis</groupId>
+            <artifactId>jarvis-tasks</artifactId>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.directory.studio</groupId>
+            <artifactId>org.apache.commons.collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo-shaded</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.iq80.leveldb</groupId>
+            <artifactId>leveldb</artifactId>
+            <version>0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial.snappy</groupId>
+            <artifactId>snappy-java</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-client</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <configuration>
+
+                    <skip>true</skip>
+                </configuration>
+
+            </plugin>
+        </plugins>
+    </build>
+</project>

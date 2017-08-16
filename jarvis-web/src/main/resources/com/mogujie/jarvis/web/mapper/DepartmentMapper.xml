@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.DepartmentMapper">
+
+    <sql id="pager">
+        <if test="offset!=null and limit!=null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+    <sql id="departmentCondition">
+        <where>
+            <if test="nameList!=null">
+                department.name IN
+                <foreach collection="nameList" item="name" open="(" close=")" separator=",">
+                    #{name}
+                </foreach>
+            </if>
+            <if test="bizGroupList!=null and bizGroupList!=''">
+                AND biz_group.name
+                <foreach collection="bizGroupList" item="bizGroup" open="(" close=")" separator=",">
+                    #{bizGroup}
+                </foreach>
+            </if>
+            <if test="ownerList!=null and ownerList!=''">
+                AND biz_group.owner
+                <foreach collection="ownerList" item="owner" open="(" close=")" separator=",">
+                    #{owner}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getCountByCondition" parameterType="OperationQo" resultType="Integer">
+        SELECT
+        count(distinct department.name)
+        FROM department LEFT JOIN department_biz_map ON department.id = department_biz_map.departmentId
+        LEFT JOIN biz_group ON department_biz_map.bizId = biz_group.id
+        <include refid="departmentCondition"/>
+    </select>
+
+    <select id="getDepartmentByCondition" parameterType="DepartmentQo" resultType="DepartmentVo">
+        SELECT
+        department.id as id,
+        department.name as departmentName,
+        biz_group.name as bizGroupName,
+        biz_group.owner as bizGroupOwner,
+        department.updateTime as updateTime
+        FROM department LEFT JOIN department_biz_map ON department.id = department_biz_map.departmentId
+        LEFT JOIN biz_group ON department_biz_map.bizId = biz_group.id
+        <include refid="departmentCondition"/>
+        <include refid="pager"/>
+    </select>
+
+    <select id="getSimilarDepartmentName" parameterType="String" resultType="String">
+        SELECT DISTINCT name FROM department
+        <where>
+            <if test="_parameter!=null and _parameter!=''">
+                name LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getSimilarBizGroupName" parameterType="String" resultType="String">
+      SELECT DISTINCT name FROM biz_group
+      <where>
+          <if test="_parameter!=null and _parameter!=''">
+              name LIKE '%${_parameter}%'
+          </if>
+      </where>
+    </select>
+
+    <select id="getSimilarBizGroupOwner" parameterType="String" resultType="String">
+        SELECT DISTINCT owner FROM biz_group
+        <where>
+            <if test="_parameter!=null and _parameter!=''">
+                owner LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getAllByCondition" parameterType="DepartmentQo" resultType="Department">
+        SELECT * FROM department
+        <include refid="departmentCondition"/>
+    </select>
+
+    <select id="getDepartmentById" parameterType="Long" resultType="DepartmentAndBizGroupVo">
+      SELECT a.id as departmentId,
+       a.name as name,
+       c.name as bizGroupName,
+       c.owner as owner,
+       c.status as status,
+       c.id as bizGroupId
+      FROM department a
+      LEFT JOIN department_biz_map b ON a.id=b.departmentId
+      LEFT JOIN biz_group c ON b.bizId=c.`id` WHERE a.id=#{departmentId}
+    </select>
+
+</mapper>

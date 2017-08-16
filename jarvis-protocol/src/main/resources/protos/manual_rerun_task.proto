@@ -1,0 +1,18 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "ManualRerunTaskProtos";
+
+
+message RestServerManualRerunTaskRequest {
+    required AppAuth app_auth = 1;
+    required int64 start_time = 2;
+    required int64 end_time = 3; 
+    repeated int64 job_id = 4; 
+    required string user = 5;
+}
+
+message ServerManualRerunTaskResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}

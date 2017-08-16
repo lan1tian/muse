@@ -1,0 +1,20 @@
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "JobInfoEntryProtos";
+
+message JobInfoEntry {
+	required int64 job_id = 1;  
+    required string job_name = 2;
+	required string user = 3;
+	required string schedule_expression = 4;
+	required int32 content_type = 5;
+	required string content = 6;
+	required int32 priority = 7;
+	required int32 status = 8;
+	required string receiver = 9;
+	required string department = 10;
+	required string biz_name = 11;
+	required int64 create_time = 12;
+	required int64 update_time = 13;
+	required int64 start_date = 14;
+	required int64 end_date = 15;
+}

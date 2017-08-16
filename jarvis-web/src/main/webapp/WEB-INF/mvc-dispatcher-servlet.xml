@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <!--声明使用注解 -->
+    <context:annotation-config/>
+
+    <!--自动注册controller -->
+
+    <context:component-scan base-package="com.mogujie.jarvis.web">
+    </context:component-scan>
+
+
+    <mvc:annotation-driven/>
+
+<!--    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.mogu.bigdata.admin.passport.interceptor.RequestInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+
+    <!--<import resource="classpath*:META-INF/admin/production/rbac-beans.xml"/>-->
+
+
+    <!--<import resource="classpath*:META-INF/admin/production/menu-beans.xml"/>-->
+
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--<bean id="handlerExceptionResolver" class="com.mogu.bigdata.admin.passport.support.http.GlobalExceptionResolver"/>-->
+    <!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="10240"/>
+        <property name="maxInMemorySize" value="10240"/>
+    </bean>
+
+</beans>

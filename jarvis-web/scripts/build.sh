@@ -1,0 +1,1 @@
+mvn clean package -U -Pproduction-one -Dmaven.test.skip=true

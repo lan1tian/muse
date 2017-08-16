@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mogujie.jarvis.dao.generate.TaskMapper">
+  <resultMap id="BaseResultMap" type="com.mogujie.jarvis.dto.generate.Task">
+    <id column="taskId" jdbcType="BIGINT" property="taskId" />
+    <result column="attemptId" jdbcType="INTEGER" property="attemptId" />
+    <result column="jobId" jdbcType="BIGINT" property="jobId" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="scheduleTime" jdbcType="TIMESTAMP" property="scheduleTime" />
+    <result column="dataTime" jdbcType="TIMESTAMP" property="dataTime" />
+    <result column="progress" jdbcType="REAL" property="progress" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="finishReason" jdbcType="VARCHAR" property="finishReason" />
+    <result column="appId" jdbcType="INTEGER" property="appId" />
+    <result column="workerId" jdbcType="INTEGER" property="workerId" />
+    <result column="executeUser" jdbcType="VARCHAR" property="executeUser" />
+    <result column="executeStartTime" jdbcType="TIMESTAMP" property="executeStartTime" />
+    <result column="executeEndTime" jdbcType="TIMESTAMP" property="executeEndTime" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="alarmEnable" jdbcType="INTEGER" property="alarmEnable" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mogujie.jarvis.dto.generate.Task">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    taskId, attemptId, jobId, params, scheduleTime, dataTime, progress, type, status, 
+    finishReason, appId, workerId, executeUser, executeStartTime, executeEndTime, createTime, 
+    updateTime, alarmEnable
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.mogujie.jarvis.dto.generate.TaskExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.mogujie.jarvis.dto.generate.TaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from task
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from task
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mogujie.jarvis.dto.generate.TaskExample">
+    delete from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mogujie.jarvis.dto.generate.Task">
+    <selectKey keyProperty="taskId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task (attemptId, jobId, params, 
+      scheduleTime, dataTime, progress, 
+      type, status, finishReason, 
+      appId, workerId, executeUser, 
+      executeStartTime, executeEndTime, createTime, 
+      updateTime, alarmEnable, content
+      )
+    values (#{attemptId,jdbcType=INTEGER}, #{jobId,jdbcType=BIGINT}, #{params,jdbcType=VARCHAR}, 
+      #{scheduleTime,jdbcType=TIMESTAMP}, #{dataTime,jdbcType=TIMESTAMP}, #{progress,jdbcType=REAL}, 
+      #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{finishReason,jdbcType=VARCHAR}, 
+      #{appId,jdbcType=INTEGER}, #{workerId,jdbcType=INTEGER}, #{executeUser,jdbcType=VARCHAR}, 
+      #{executeStartTime,jdbcType=TIMESTAMP}, #{executeEndTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{alarmEnable,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mogujie.jarvis.dto.generate.Task">
+    <selectKey keyProperty="taskId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="attemptId != null">
+        attemptId,
+      </if>
+      <if test="jobId != null">
+        jobId,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="scheduleTime != null">
+        scheduleTime,
+      </if>
+      <if test="dataTime != null">
+        dataTime,
+      </if>
+      <if test="progress != null">
+        progress,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="finishReason != null">
+        finishReason,
+      </if>
+      <if test="appId != null">
+        appId,
+      </if>
+      <if test="workerId != null">
+        workerId,
+      </if>
+      <if test="executeUser != null">
+        executeUser,
+      </if>
+      <if test="executeStartTime != null">
+        executeStartTime,
+      </if>
+      <if test="executeEndTime != null">
+        executeEndTime,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="alarmEnable != null">
+        alarmEnable,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="attemptId != null">
+        #{attemptId,jdbcType=INTEGER},
+      </if>
+      <if test="jobId != null">
+        #{jobId,jdbcType=BIGINT},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleTime != null">
+        #{scheduleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataTime != null">
+        #{dataTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="progress != null">
+        #{progress,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="finishReason != null">
+        #{finishReason,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=INTEGER},
+      </if>
+      <if test="workerId != null">
+        #{workerId,jdbcType=INTEGER},
+      </if>
+      <if test="executeUser != null">
+        #{executeUser,jdbcType=VARCHAR},
+      </if>
+      <if test="executeStartTime != null">
+        #{executeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeEndTime != null">
+        #{executeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alarmEnable != null">
+        #{alarmEnable,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mogujie.jarvis.dto.generate.TaskExample" resultType="java.lang.Integer">
+    select count(*) from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update task
+    <set>
+      <if test="record.taskId != null">
+        taskId = #{record.taskId,jdbcType=BIGINT},
+      </if>
+      <if test="record.attemptId != null">
+        attemptId = #{record.attemptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobId != null">
+        jobId = #{record.jobId,jdbcType=BIGINT},
+      </if>
+      <if test="record.params != null">
+        params = #{record.params,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scheduleTime != null">
+        scheduleTime = #{record.scheduleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dataTime != null">
+        dataTime = #{record.dataTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.progress != null">
+        progress = #{record.progress,jdbcType=REAL},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishReason != null">
+        finishReason = #{record.finishReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null">
+        appId = #{record.appId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workerId != null">
+        workerId = #{record.workerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.executeUser != null">
+        executeUser = #{record.executeUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executeStartTime != null">
+        executeStartTime = #{record.executeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.executeEndTime != null">
+        executeEndTime = #{record.executeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.alarmEnable != null">
+        alarmEnable = #{record.alarmEnable,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update task
+    set taskId = #{record.taskId,jdbcType=BIGINT},
+      attemptId = #{record.attemptId,jdbcType=INTEGER},
+      jobId = #{record.jobId,jdbcType=BIGINT},
+      params = #{record.params,jdbcType=VARCHAR},
+      scheduleTime = #{record.scheduleTime,jdbcType=TIMESTAMP},
+      dataTime = #{record.dataTime,jdbcType=TIMESTAMP},
+      progress = #{record.progress,jdbcType=REAL},
+      type = #{record.type,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      finishReason = #{record.finishReason,jdbcType=VARCHAR},
+      appId = #{record.appId,jdbcType=INTEGER},
+      workerId = #{record.workerId,jdbcType=INTEGER},
+      executeUser = #{record.executeUser,jdbcType=VARCHAR},
+      executeStartTime = #{record.executeStartTime,jdbcType=TIMESTAMP},
+      executeEndTime = #{record.executeEndTime,jdbcType=TIMESTAMP},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      alarmEnable = #{record.alarmEnable,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update task
+    set taskId = #{record.taskId,jdbcType=BIGINT},
+      attemptId = #{record.attemptId,jdbcType=INTEGER},
+      jobId = #{record.jobId,jdbcType=BIGINT},
+      params = #{record.params,jdbcType=VARCHAR},
+      scheduleTime = #{record.scheduleTime,jdbcType=TIMESTAMP},
+      dataTime = #{record.dataTime,jdbcType=TIMESTAMP},
+      progress = #{record.progress,jdbcType=REAL},
+      type = #{record.type,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      finishReason = #{record.finishReason,jdbcType=VARCHAR},
+      appId = #{record.appId,jdbcType=INTEGER},
+      workerId = #{record.workerId,jdbcType=INTEGER},
+      executeUser = #{record.executeUser,jdbcType=VARCHAR},
+      executeStartTime = #{record.executeStartTime,jdbcType=TIMESTAMP},
+      executeEndTime = #{record.executeEndTime,jdbcType=TIMESTAMP},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      alarmEnable = #{record.alarmEnable,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mogujie.jarvis.dto.generate.Task">
+    update task
+    <set>
+      <if test="attemptId != null">
+        attemptId = #{attemptId,jdbcType=INTEGER},
+      </if>
+      <if test="jobId != null">
+        jobId = #{jobId,jdbcType=BIGINT},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleTime != null">
+        scheduleTime = #{scheduleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataTime != null">
+        dataTime = #{dataTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="progress != null">
+        progress = #{progress,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="finishReason != null">
+        finishReason = #{finishReason,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        appId = #{appId,jdbcType=INTEGER},
+      </if>
+      <if test="workerId != null">
+        workerId = #{workerId,jdbcType=INTEGER},
+      </if>
+      <if test="executeUser != null">
+        executeUser = #{executeUser,jdbcType=VARCHAR},
+      </if>
+      <if test="executeStartTime != null">
+        executeStartTime = #{executeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeEndTime != null">
+        executeEndTime = #{executeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alarmEnable != null">
+        alarmEnable = #{alarmEnable,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mogujie.jarvis.dto.generate.Task">
+    update task
+    set attemptId = #{attemptId,jdbcType=INTEGER},
+      jobId = #{jobId,jdbcType=BIGINT},
+      params = #{params,jdbcType=VARCHAR},
+      scheduleTime = #{scheduleTime,jdbcType=TIMESTAMP},
+      dataTime = #{dataTime,jdbcType=TIMESTAMP},
+      progress = #{progress,jdbcType=REAL},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      finishReason = #{finishReason,jdbcType=VARCHAR},
+      appId = #{appId,jdbcType=INTEGER},
+      workerId = #{workerId,jdbcType=INTEGER},
+      executeUser = #{executeUser,jdbcType=VARCHAR},
+      executeStartTime = #{executeStartTime,jdbcType=TIMESTAMP},
+      executeEndTime = #{executeEndTime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      alarmEnable = #{alarmEnable,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.Task">
+    update task
+    set attemptId = #{attemptId,jdbcType=INTEGER},
+      jobId = #{jobId,jdbcType=BIGINT},
+      params = #{params,jdbcType=VARCHAR},
+      scheduleTime = #{scheduleTime,jdbcType=TIMESTAMP},
+      dataTime = #{dataTime,jdbcType=TIMESTAMP},
+      progress = #{progress,jdbcType=REAL},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      finishReason = #{finishReason,jdbcType=VARCHAR},
+      appId = #{appId,jdbcType=INTEGER},
+      workerId = #{workerId,jdbcType=INTEGER},
+      executeUser = #{executeUser,jdbcType=VARCHAR},
+      executeStartTime = #{executeStartTime,jdbcType=TIMESTAMP},
+      executeEndTime = #{executeEndTime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      alarmEnable = #{alarmEnable,jdbcType=INTEGER}
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </update>
+</mapper>

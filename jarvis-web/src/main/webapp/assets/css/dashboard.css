@@ -1,0 +1,46 @@
+
+.wait{
+    color:#FF851B;
+}
+.ready{
+    color: #FFDC00
+}
+.running{
+    color: #0074D9;
+}
+.success{
+    color: #2ECC40
+}
+.failed{
+    color: #FF4136
+}
+.killed{
+    color: #111111
+}
+
+.dashboard-card{
+    background-color: #F7F7F7;
+    border-radius:2px;
+    padding-left: 40px;
+}
+.dashboard-card a{
+    text-decoration: none;
+}
+
+.thin-padding{
+    padding-left: 2px;
+    padding-right:2px;
+}
+
+.status-text{
+    padding:5px;
+    font-size: 15px;
+    color:#73879C;
+}
+
+.num-text{
+    font-size: 40px;
+    line-height:47px;
+    font-weight:600;
+    color:#73879C;
+}

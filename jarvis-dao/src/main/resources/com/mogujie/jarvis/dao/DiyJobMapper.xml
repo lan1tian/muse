@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.dao.DiyJobMapper" >
+
+  <select id="selectByScriptId" parameterType="int" resultType="com.mogujie.jarvis.dto.generate.Job">
+  	SELECT * FROM job where contentType=2 and content=#{scriptId} limit 0,1
+  </select>
+
+  <select id="selectByScriptTitle" parameterType="string" resultType="com.mogujie.jarvis.dto.generate.Job">
+    SELECT * FROM job where contentType=2 and content=(SELECT id FROM ironman.script where title=#{title} limit 0,1) limit 0,1
+  </select>
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.BizGroupMapper">
+    <!-- 公共条件sql -->
+    <sql id="condition">
+        <where>
+            <if test="name!=null and name!=''">
+                `name`=#{name}
+            </if>
+            <if test="status!=null">
+                AND status=#{status}
+            </if>
+            <if test="owner!=null and owner!=''">
+                AND owner=#{owner}
+            </if>
+        </where>
+    </sql>
+    <!-- 分页 -->
+    <sql id="pager">
+        <if test="offset!=null and limit !=null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+
+    <select id="getById" parameterType="Integer" resultType="BizGroupVo">
+        SELECT * FROM biz_group WHERE id=#{_parameter}
+    </select>
+    <select id="getByName" parameterType="String" resultType="BizGroupVo">
+        SELECT * FROM biz_group WHERE name=#{_parameter}
+    </select>
+
+    <select id="getAllByCondition" parameterType="BizGroupQo" resultType="BizGroupVo">
+        SELECT * FROM biz_group
+        <include refid="condition"/>
+    </select>
+
+    <select id="getTotalByCondition" parameterType="BizGroupQo" resultType="Integer">
+        SELECT count(1) FROM biz_group
+        <include refid="condition"/>
+    </select>
+
+    <select id="getByCondition" parameterType="BizGroupQo" resultType="BizGroupVo">
+        SELECT * FROM biz_group
+        <include refid="condition"/>
+        ORDER BY id ASC
+        <include refid="pager"/>
+    </select>
+
+    <select id="getAllName" resultType="String">
+        SELECT name FROM biz_group;
+    </select>
+
+    <select id="getAllOwner" resultType="String">
+        SELECT DISTINCT owner FROM biz_group;
+    </select>
+
+
+</mapper>

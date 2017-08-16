@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.mogujie.jarvis" />
+
+	<!-- 事务 -->
+	<tx:annotation-driven proxy-target-class="true"
+		transaction-manager="transactionManager" />
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="hikariDataSource" />
+	</bean>
+
+	<!-- HikariCP -->
+	<bean id="hikariDataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="shutdown">
+		<constructor-arg>
+			<bean class="com.zaxxer.hikari.HikariConfig">
+                <!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+				<!--<property name="jdbcUrl" value="jdbc:mysql://10.11.128.49/jarvis2" />-->
+                <property name="driverClassName" value="org.h2.Driver" />
+                <property name="jdbcUrl" value="jdbc:h2:~/test;mode=mysql" />
+				<property name="username" value="root" />
+				<property name="password" value="mogujie" />
+				<property name="connectionTestQuery" value="SELECT 1" />
+				<property name="connectionTimeout" value="30000" />
+				<property name="idleTimeout" value="600000" />
+				<property name="maxLifetime" value="1800000" />
+				<property name="maximumPoolSize" value="10" />
+				<property name="minimumIdle" value="5" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<!-- MyBatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="hikariDataSource" />
+		<property name="mapperLocations" value="classpath*:sqlMap/**/*.xml" />
+	</bean>
+
+	<!-- 注册Maper -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.mogujie.jarvis.dao" />
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- 使用ehcache缓存 -->
+	<bean id="ehcacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		p:config-location="classpath:ehcache.xml" p:shared="true" />
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cache-manager-ref="ehcacheManager" />
+
+	<!-- WorkerSelector -->
+	<bean id="heartBeatService" class="com.mogujie.jarvis.server.service.HeartBeatService" />
+	<bean id="workerSelector" class="com.mogujie.jarvis.server.workerselector.RoundRobinWorkerSelector">
+		<constructor-arg index="0" ref="heartBeatService" />
+	</bean>
+</beans>

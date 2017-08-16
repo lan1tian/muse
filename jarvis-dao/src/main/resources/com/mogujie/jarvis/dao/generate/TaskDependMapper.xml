@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mogujie.jarvis.dao.generate.TaskDependMapper">
+  <resultMap id="BaseResultMap" type="com.mogujie.jarvis.dto.generate.TaskDepend">
+    <id column="taskId" jdbcType="BIGINT" property="taskId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mogujie.jarvis.dto.generate.TaskDepend">
+    <result column="dependTaskIds" jdbcType="LONGVARCHAR" property="dependTaskIds" />
+    <result column="childTaskIds" jdbcType="LONGVARCHAR" property="childTaskIds" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    taskId, createTime
+  </sql>
+  <sql id="Blob_Column_List">
+    dependTaskIds, childTaskIds
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.mogujie.jarvis.dto.generate.TaskDependExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from task_depend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.mogujie.jarvis.dto.generate.TaskDependExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task_depend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from task_depend
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from task_depend
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mogujie.jarvis.dto.generate.TaskDependExample">
+    delete from task_depend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mogujie.jarvis.dto.generate.TaskDepend">
+    insert into task_depend (taskId, createTime, dependTaskIds, 
+      childTaskIds)
+    values (#{taskId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{dependTaskIds,jdbcType=LONGVARCHAR}, 
+      #{childTaskIds,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mogujie.jarvis.dto.generate.TaskDepend">
+    insert into task_depend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        taskId,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="dependTaskIds != null">
+        dependTaskIds,
+      </if>
+      <if test="childTaskIds != null">
+        childTaskIds,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dependTaskIds != null">
+        #{dependTaskIds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="childTaskIds != null">
+        #{childTaskIds,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mogujie.jarvis.dto.generate.TaskDependExample" resultType="java.lang.Integer">
+    select count(*) from task_depend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update task_depend
+    <set>
+      <if test="record.taskId != null">
+        taskId = #{record.taskId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dependTaskIds != null">
+        dependTaskIds = #{record.dependTaskIds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.childTaskIds != null">
+        childTaskIds = #{record.childTaskIds,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update task_depend
+    set taskId = #{record.taskId,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      dependTaskIds = #{record.dependTaskIds,jdbcType=LONGVARCHAR},
+      childTaskIds = #{record.childTaskIds,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update task_depend
+    set taskId = #{record.taskId,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mogujie.jarvis.dto.generate.TaskDepend">
+    update task_depend
+    <set>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dependTaskIds != null">
+        dependTaskIds = #{dependTaskIds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="childTaskIds != null">
+        childTaskIds = #{childTaskIds,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mogujie.jarvis.dto.generate.TaskDepend">
+    update task_depend
+    set createTime = #{createTime,jdbcType=TIMESTAMP},
+      dependTaskIds = #{dependTaskIds,jdbcType=LONGVARCHAR},
+      childTaskIds = #{childTaskIds,jdbcType=LONGVARCHAR}
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mogujie.jarvis.dto.generate.TaskDepend">
+    update task_depend
+    set createTime = #{createTime,jdbcType=TIMESTAMP}
+    where taskId = #{taskId,jdbcType=BIGINT}
+  </update>
+</mapper>

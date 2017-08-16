@@ -1,0 +1,37 @@
+import "map_entry.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "ReportTaskProtos";
+
+
+message WorkerReportTaskUpdateRequest {
+    required string full_id = 1;
+    required string content = 2;
+    required string user = 3;
+}
+
+message ServerReportTaskUpdateResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message WorkerReportTaskStatusRequest {
+    required string full_id = 1;
+    required int32 status = 2;
+    required int64 timestamp = 3;
+}
+
+message ServerReportTaskStatusResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message WorkerReportTaskProgressRequest {
+    required string full_id = 1;
+    required float progress = 2;
+}
+
+message ServerReportTaskProgressResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}

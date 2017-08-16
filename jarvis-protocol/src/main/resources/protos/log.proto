@@ -1,0 +1,41 @@
+import "app_auth.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "LogProtos";
+
+message RestReadLogRequest {
+    required AppAuth app_auth = 1;
+    required string full_id = 2;
+    required int32 type = 3;
+    optional int64 offset = 4 [default = 0];
+    optional int32 size = 5 [default = 10000];
+}
+
+message LogStorageReadLogResponse {
+    optional string log = 1;
+    optional bool is_end = 2;
+    optional int64 offset = 3;
+    required bool success = 4;
+    optional string message = 5 [default = ""];
+}
+
+message WorkerWriteLogRequest {
+    required string full_id = 1;
+    required bytes log = 2;
+    required int32 type = 3;
+    required bool is_end = 4;
+}
+
+message LogStorageWriteLogResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}
+
+message WorkerHeartBeatRequest {
+    required int32 worker_group_id = 1;
+}
+
+message LogStorageHeartBeatResponse {
+    required bool success = 1;
+    optional string message = 2 [default = ""];
+}

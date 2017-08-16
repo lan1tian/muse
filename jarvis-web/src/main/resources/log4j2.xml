@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Properties>
+        <Property name="jarvisLogDir">../logs/jarvis2</Property>
+        <Property name="exceptionLogDir">../logs/exception</Property>
+        <Property name="exceptionLogFile">exception.log</Property>
+        <Property name="exceptionLogRollingFile">exceptionRolling.log</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %m%n"/>
+        </Console>
+
+        <File name="exceptionLogFile" fileName="${exceptionLogDir}/${exceptionLogFile}" append="false">
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}\t%m%n"/>
+        </File>
+        <RollingFile name="exceptionLogRollingFile" fileName="${exceptionLogDir}/${exceptionLogRollingFile}" append="true" filePattern="${exceptionLogDir}/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}\t%m%n"/>
+            <SizeBasedTriggeringPolicy size="4 MB"/>
+        </RollingFile>
+        <RollingFile name="jarvisLogRollingFile" fileName="${jarvisLogDir}/jarvis2.log" append="true" filePattern="${jarvisLogDir}/%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss}\t%m %l%n"/>
+            <SizeBasedTriggeringPolicy size="4 MB"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="exceptionLogger" additivity="TRUE" level="info">
+            <AppenderRef ref="exceptionLogFile" level="info" />
+            <AppenderRef ref="exceptionLogRollingFile" level="info" />
+        </Logger>
+        <Logger name="jarvisLogger" additivity="TRUE" level="info">
+            <AppenderRef ref="jarvisLogRollingFile" level="info" />
+        </Logger>
+    </Loggers>
+
+</Configuration>
+

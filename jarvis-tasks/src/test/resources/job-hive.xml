@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Apps>
+	<App name="test" user="dragon" isAdmin="1" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="ironman" user="etlprd" isAdmin="1" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="UMP" user="zhoumo" isAdmin="0" maxResultRows="-1"
+		maxMapperNum="2000" />
+	<App name="mdata" user="jielun" isAdmin="0" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="jarvis" user="etlprd" isAdmin="1" maxResultRows="-1"
+		maxMapperNum="-1" />
+	<App name="cscenterjob" user="maike" isAdmin="0" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="SafeMonitor" user="zhijie" isAdmin="0" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="report" user="etlprd" isAdmin="1" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="xmen" user="etlprd" isAdmin="0" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="p2p" user="zhijie" isAdmin="0" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="qike_daren" user="qike" isAdmin="0" maxResultRows="10000"
+		maxMapperNum="2000" />
+	<App name="item_cate_order_info" user="shengqi" isAdmin="0"
+		maxResultRows="20000" maxMapperNum="2000" />
+</Apps>

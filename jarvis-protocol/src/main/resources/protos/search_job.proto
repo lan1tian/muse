@@ -1,0 +1,149 @@
+import "app_auth.proto";
+import "job_info_entry.proto";
+
+option java_package = "com.mogujie.jarvis.protocol";
+option java_outer_classname = "SearchJobProtos";
+
+//search job by scriptId
+message RestSearchJobByScriptIdRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int32 script_id = 3;
+}
+
+message ServerSearchJobByScriptIdResponse {
+    required bool success = 1;
+    optional JobInfoEntry job_info = 2;
+    optional string message = 3 [default = ""];
+}
+
+//search job by jobName
+message RestSearchJobByNameRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required string job_name = 3;
+}
+
+message ServerSearchJobByNameResponse {
+    required bool success = 1;
+    optional JobInfoEntry job_info = 2;
+    optional string message = 3 [default = ""];
+}
+
+
+//search depend job info
+message RestSearchPreJobInfoRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required int64 job_id = 3;
+}
+
+message ServerSearchPreJobInfoResponse {
+    required bool success = 1;
+    repeated JobInfoEntry pre_job_info = 2;
+    optional string message = 3 [default = ""];
+}
+
+
+//search all jobs
+message SimpleJobInfoEntry {
+	required int64 job_id = 1;
+	required string job_name = 2;
+	required string user = 3;
+}
+
+message RestSearchAllJobsRequest {
+	required AppAuth app_auth = 1;
+	required string user = 2;
+}
+
+message ServerSearchAllJobsResponse {
+	required bool success = 1;
+    repeated SimpleJobInfoEntry job_info = 2;
+    optional string message = 3 [default = ""];
+}
+
+
+//search script type
+message RestSearchScriptTypeRequest {
+	required AppAuth app_auth = 1;
+	required string user = 2;
+	required int32 script_id = 3;
+}
+
+message ServerSearchScriptTypeResponse {
+  required bool success = 1;
+  optional string script_type = 2;
+  optional string message = 3 [default = ""];
+}
+
+
+//search job info by script name
+message RestSearchJobInfoByScriptTitileRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required string title = 3;
+}
+
+message ServerSearchJobInfoByScriptTitileResponse {
+    required bool success = 1;
+    optional JobInfoEntry job_info = 2;
+    optional string message = 3 [default = ""];
+}
+
+
+//search biz id
+message RestSearchBizIdByNameRequest {
+	required AppAuth app_auth = 1;
+	required string user = 2;
+	required string biz_name = 3;
+}
+
+message ServerSearchBizIdByNameResponse {
+	required bool success = 1;
+    optional int32 biz_id = 2;
+    optional string message = 3 [default = ""];
+}
+
+
+//search departmentId by name
+message RestSearchDepartmentIdByNameRequest {
+	required AppAuth app_auth = 1;
+	required string user = 2;
+	required string department_name = 3;
+}
+
+message ServerSearchDepartmentIdByNameResponse {
+	required bool success = 1;
+    optional int32 department_id = 2;
+    optional string message = 3 [default = ""];
+}
+
+
+//search job status
+message RestSearchTaskStatusRequest {
+	required AppAuth app_auth = 1;
+	required int64 job_id = 2;
+	required int64 data_date = 3;
+}
+
+message ServerSearchTaskStatusResponse {
+	required bool success = 1;
+	optional int32 status = 2;
+	optional string message = 3 [default = ""];
+}
+
+
+//search job like jobName
+message RestSearchJobLikeNameRequest {
+    required AppAuth app_auth = 1;
+    required string user = 2;
+    required string keyword = 3;
+}
+
+message ServerSearchJobLikeNameResponse {
+    required bool success = 1;
+    repeated JobInfoEntry job_info = 2;
+    optional string message = 3 [default = ""];
+}
+

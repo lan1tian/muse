@@ -1,0 +1,13 @@
+{
+    "0":{"color":"#C9C9C9","text":"未初始化"},
+    "1":{"color":"#FF851B","text":"等待"},
+    "2":{"color":"#FFDC00","text":"准备"},
+    "3":{"color":"#0074D9","text":"运行"},
+    "4":{"color":"#2ECC40","text":"成功"},
+    "5":{"color":"#FF4136","text":"失败"},
+    "6":{"color":"#111111","text":"Killed"},
+    "90":{"color":"#AAAAAA","text":""},
+    "91":{"color":"#B10DC9","text":""},
+    "92":{"color":"#FFFFFF","text":""},
+    "99":{"color":"#ab279d","text":"删除"}
+}

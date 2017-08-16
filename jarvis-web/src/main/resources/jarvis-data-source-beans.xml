@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+        <property name="locations">
+            <list>
+                <value>classpath:db.properties</value>
+                <value>classpath:sqlsession.properties</value>
+                <value>classpath:mysql.properties</value>
+                <value>classpath:platform.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig" init-method="init">
+        <!-- 指定配置装载的目录  -->
+        <property name="dir" value="META-INF/druid/wall/mysql" />
+    </bean>
+
+    <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+        <property name="dbType" value="mysql" />
+        <property name="config" ref="wall-filter-config" />
+    </bean>
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <property name="slowSqlMillis" value="3000" />
+        <property name="logSlowSql" value="true" />
+        <property name="mergeSql" value="true" />
+    </bean>
+
+
+    <bean id="jarvisDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" >
+        <property name="timeBetweenLogStatsMillis" value="300000" />
+        <property name="url" value="${db.url}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${db.initialSize}" />
+        <property name="minIdle" value="${db.minIdle}" />
+        <property name="maxActive" value="${db.maxActive}" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${db.maxWait}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${db.validationQuery}" />
+        <property name="testWhileIdle" value="${db.testWhileIdle}" />
+        <property name="testOnBorrow" value="${db.testOnBorrow}" />
+        <property name="testOnReturn" value="${db.testOnReturn}" />
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="${db.poolPreparedStatements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${db.maxPoolPreparedStatementPerConnectionSize}" />
+        <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+                <ref bean="wall-filter"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- define the SqlSessionFactory -->
+    <bean id="jarvisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="jarvisDataSource" />
+        <property name="typeAliasesPackage" value="com.mogujie.jarvis.web.entity.qo;com.mogujie.jarvis.web.entity.vo;com.mogujie.jarvis.dto" />
+        <property name="configurationProperties">
+            <props>
+                <prop key="cacheEnabled">true</prop>
+                <!-- 查询时，关闭关联对象即时加载以提高性能 -->
+                <prop key="lazyLoadingEnabled">true</prop>
+                <!-- 设置关联对象加载的形态，此处为按需加载字段(加载字段由SQL指定)，不会加载关联表的所有字段，以提高性能 -->
+                <prop key="aggressiveLazyLoading">false</prop>
+                <!-- 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果 -->
+                <prop key="multipleResultSetsEnabled">true</prop>
+                <!-- 允许使用列标签代替列名 -->
+                <prop key="useColumnLabel">true</prop>
+                <!-- 允许使用自定义的主键值(比如由程序生成的UUID 32位编码作为键值)，数据表的PK生成策略将被覆盖 -->
+                <prop key="useGeneratedKeys">true</prop>
+                <!-- 给予被嵌套的resultMap以字段-属性的映射支持 -->
+                <prop key="autoMappingBehavior">FULL</prop>
+                <!-- 对于批量更新操作缓存SQL以提高性能  -->
+                <prop key="defaultExecutorType">BATCH</prop>
+                <!-- 数据库超过25000秒仍未响应则超时 -->
+                <prop key="defaultStatementTimeout">25000</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- scan for mappers and let them be autowired -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage"
+                  value="com.mogujie.jarvis.web.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="jarvisSqlSessionFactory"/>
+    </bean>
+
+</beans>

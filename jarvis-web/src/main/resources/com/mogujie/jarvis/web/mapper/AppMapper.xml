@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mogujie.jarvis.web.mapper.AppMapper">
+
+    <sql id="condition">
+        <where>
+            <if test="appId!=null">
+                appId=#{appId}
+            </if>
+            <if test="appType!=null and appType!=''">
+                AND appType=#{appType}
+            </if>
+            <if test="appName!=null and appName!=''">
+                AND appName=#{appName}
+            </if>
+            <if test="status!=null">
+                AND status=#{status}
+            </if>
+            <if test="status==null">
+                AND status!=3
+            </if>
+        </where>
+    </sql>
+    <sql id="pager">
+        <if test="offset!=null and limit!=null">
+            limit #{offset},#{limit}
+        </if>
+    </sql>
+
+    <select id="getAppCount" parameterType="AppQo" resultType="Integer">
+        SELECT count(1) FROM app
+        <include refid="condition"/>
+    </select>
+
+
+    <select id="getAppList" parameterType="AppQo" resultType="AppVo">
+        SELECT * FROM app
+        <include refid="condition"/>
+        <include refid="pager"/>
+    </select>
+
+    <select id="getAllAppName" resultType="String">
+        SELECT DISTINCT appName FROM app;
+    </select>
+
+    <select id="getAppById" parameterType="Integer" resultType="AppVo">
+        SELECT * FROM app WHERE appId=#{appId};
+    </select>
+
+    <select id="getAppByName" parameterType="String" resultType="AppVo">
+        SELECT * FROM app WHERE appName=#{_parameter} limit 0,1;
+    </select>
+
+</mapper>
