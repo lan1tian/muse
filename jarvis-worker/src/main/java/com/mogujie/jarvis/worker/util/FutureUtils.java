@@ -14,11 +14,14 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.pattern.Patterns;
 import akka.util.Timeout;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 
 public class FutureUtils {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static Object awaitResult(ActorRef ref, Object msg, long seconds) throws Exception {
         Timeout timeout = new Timeout(Duration.create(seconds, TimeUnit.SECONDS));
@@ -29,6 +32,10 @@ public class FutureUtils {
     public static Object awaitResult(ActorSelection selection, Object msg, long seconds) throws Exception {
         Timeout timeout = new Timeout(Duration.create(seconds, TimeUnit.SECONDS));
         Future<Object> future = Patterns.ask(selection, msg, timeout);
-        return Await.result(future, timeout.duration());
+        LOGGER.info("ask timeout="+future);
+        Object result = Await.result(future, timeout.duration());
+        LOGGER.info("ask result="+future);
+
+        return result;
     }
 }

@@ -45,7 +45,9 @@ public class JarvisWorker {
             ActorSystem system = ActorSystem.create(JarvisConstants.WORKER_AKKA_SYSTEM_NAME, akkaConfig);
 
             Configuration workerConfig = ConfigUtils.getWorkerConfig();
+//            serverAkkaPath==akka.tcp://server@172.17.7.230:10000/user/server
             String serverAkkaPath = workerConfig.getString(WorkerConfigKeys.SERVER_AKKA_PATH) + JarvisConstants.SERVER_AKKA_USER_PATH;
+
             int workerGroupId = workerConfig.getInt(WorkerConfigKeys.WORKER_GROUP_ID, 0);
             String workerKey = workerConfig.getString(WorkerConfigKeys.WORKER_KEY);
 
@@ -53,9 +55,14 @@ public class JarvisWorker {
             boolean register = false;
             while (!register) {
                 WorkerRegistryRequest request = WorkerRegistryRequest.newBuilder().setKey(workerKey).build();
+//                serverActor==ActorSelection[Anchor(akka.tcp://server@172.17.7.230:10000/), Path(/user/server)]
                 ActorSelection serverActor = system.actorSelection(serverAkkaPath);
+                LOGGER.info("serverActor=="+serverActor);
+                LOGGER.info("serverAkkaPath=="+serverAkkaPath);
+                LOGGER.info("workerKey=="+workerKey);
+                LOGGER.info("request=="+request);
                 try {
-                    ServerRegistryResponse response = (ServerRegistryResponse) FutureUtils.awaitResult(serverActor, request, 5);
+                    ServerRegistryResponse response = (ServerRegistryResponse) FutureUtils.awaitResult(serverActor, request, 10);
                     if (!response.getSuccess()) {
                         LOGGER.error("Worker register failed with group.id={}, worker.key={}, exit", workerGroupId, workerKey);
                         system.terminate();
