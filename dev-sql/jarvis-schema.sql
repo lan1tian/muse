@@ -111,13 +111,17 @@ CREATE TABLE `operation_log` (
   `title` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `operator` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `refer` varchar(11) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `detail` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '任务内容',
+  `detail` mediumtext COLLATE utf8mb4_unicode_ci COMMENT '任务内容',
   `opeDate` datetime NOT NULL COMMENT '创建时间',
   `type` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型，job task',
+  operationType varchar(2000),
+  preOperationContent varchar(2000),
+  afterOperationContent varchar(2000),
   PRIMARY KEY (`id`),
   KEY `index_title` (`title`(191)),
   KEY `index_type` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 -- Create syntax for TABLE 'plan'
 CREATE TABLE `plan` (
@@ -307,6 +311,7 @@ insert into worker_group values(1,'a','ec80df2716a547b89d99a3d135dea1d3',1,'lisi
 insert into app_worker_group values(1,1,now(),now(),'lisi');
 insert into app values(1, 'jarvis-web', '11111',1,1,10, 'lisi', now(), now(), 'lisi');
 
-
+alter table job change  department  departmentId varchar(256);
+ alter table task add column(alarmEnable int);
 
 
