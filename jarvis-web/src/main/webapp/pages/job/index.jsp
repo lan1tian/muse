@@ -138,7 +138,8 @@
 </jsp:include>
 <script type="text/javascript">
     var user = '${user.uname}';
-    var appId='${app.appId}';
+    <%--var appId='${app.appId}';--%>
+    var appId='1';
 </script>
 
 <script type="text/javascript" src="${contextPath}/assets/js/jarvis/job/job.js"></script>

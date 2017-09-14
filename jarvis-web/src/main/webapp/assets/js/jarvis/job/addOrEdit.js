@@ -16,7 +16,6 @@ var pageJobEdit = { //页面变量
 };
 
 $(function () {
-
     $("#jobType").on('change', function (e) {
         changeJobType();
     });
@@ -121,7 +120,7 @@ function initJobData() {
 
 //初始化-job类型
 function initJobType() {
-    //console.log("initJobType");
+    // console.log("initJobType");
     var newData = [];
     var object = CONST.JOB_TYPE;
     for (var prop in object) {
@@ -332,6 +331,7 @@ function initBizGroupName() {
 
 //初始化-WorkerGroup
 function initWorkerGroup() {
+    // console.log("init workerGroup");
     $.ajax({
         url: contextPath + "/api/workerGroup/getByAppId",
         data: {appId: appId},
@@ -347,6 +347,7 @@ function initWorkerGroup() {
                 data: newData,
                 width: '100%'
             });
+
 
             if (null != job) {
                 $("#workerGroupId").val(job.workerGroupId).trigger("change");

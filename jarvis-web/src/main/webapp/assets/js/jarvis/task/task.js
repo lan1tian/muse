@@ -160,7 +160,7 @@ function initBatchOperation() {
 
             var selecteds = glFuncs.getIdSelections("content");
             if (selecteds.length <= 0) {
-                showMsg("warning", "批量" + operationName, "请至少选择一条执行记录");
+                showMsg("warning", "批量1" + operationName, "请至少选择一条执行记录");
                 return;
             }
 
@@ -203,6 +203,7 @@ function search() {
 }
 
 function initSearchCondition() {
+    console.log("taskQo=="+taskQo);
     if (taskQo != null) {
         if (taskQo.jobIdList != null) {
             //var data = [];

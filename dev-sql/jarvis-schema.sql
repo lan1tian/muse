@@ -312,6 +312,12 @@ insert into app_worker_group values(1,1,now(),now(),'lisi');
 insert into app values(1, 'jarvis-web', '11111',1,1,10, 'lisi', now(), now(), 'lisi');
 
 alter table job change  department  departmentId varchar(256);
- alter table task add column(alarmEnable int);
+alter table task add column(alarmEnable int);
+alter table task_history add column(alarmEnable int);
 
+--启动第二个worker
+insert into app_worker_group values(1,2,now(),now(),'lisi');
+insert into worker_group values(2,'workerb','ec80df2716a547b89d99a3d135dea1d4',1,'lisi',now(),now(),'lisi');
+
+-- http://localhost:8080/jarvis/pages/job/index.jsp
 

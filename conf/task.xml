@@ -11,7 +11,7 @@
 		<task type="hive" class="com.mogujie.jarvis.tasks.shell.HiveShellTask">
 			<lookup class="com.mogujie.jarvis.worker.status.lookup.ShellStatusLookup" />
 			<strategies>
-				<strategy>com.mogujie.jarvis.worker.strategy.impl.YarnMemoryAcceptanceStrategy
+				<strategy>com.mogujie.jarvis.worker.strategy.impl.YarnResourceAcceptanceStrategy
 				</strategy>
 			</strategies>
 		</task>

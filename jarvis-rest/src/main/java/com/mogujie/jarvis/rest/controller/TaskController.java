@@ -137,7 +137,10 @@ public class TaskController extends AbstractController {
             }
             RestServerManualRerunTaskRequest request = builder.setAppAuth(appAuth).setStartTime(startDate).setEndTime(endDate).setUser(user).build();
 
-            Timeout timeout = new Timeout(Duration.create(180, TimeUnit.SECONDS));
+            Timeout timeout = new Timeout(Duration.create(30, TimeUnit.SECONDS));
+            //timeout
+            LOGGER.info("task request="+request);
+
             ServerManualRerunTaskResponse response = (ServerManualRerunTaskResponse) callActor(AkkaType.SERVER, request, timeout);
             return response.getSuccess() ? successResult() : errorResult(response.getMessage());
         } catch (Exception e) {

@@ -36,7 +36,7 @@
     <script>
         var contextPath = "${contextPath}";
     </script>
-    <title>调度系统 - 蘑菇街</title>
+    <title>调度系统 - muse</title>
 </head>
 <body>
 <header>
@@ -53,10 +53,10 @@
         <%--${admin:menus(__menus, contextPath)}--%>
             <ul>
                 <li><a href="#0">Tour</a></li>
-                <li><a href="#0">Login</a></li>
-                <li><a href="#0">Login</a></li>
-                <li><a href="#0">Login</a></li>
-                <li><a href="#0">Login</a></li>
+                <%--<li><a href="#0">Login</a></li>--%>
+                <%--<li><a href="#0">Login</a></li>--%>
+                <%--<li><a href="#0">Login</a></li>--%>
+                <%--<li><a href="#0">Login</a></li>--%>
             </ul>
 
     </nav>

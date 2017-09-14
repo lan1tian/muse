@@ -32,9 +32,7 @@ public class FutureUtils {
     public static Object awaitResult(ActorSelection selection, Object msg, long seconds) throws Exception {
         Timeout timeout = new Timeout(Duration.create(seconds, TimeUnit.SECONDS));
         Future<Object> future = Patterns.ask(selection, msg, timeout);
-        LOGGER.info("ask timeout="+future);
         Object result = Await.result(future, timeout.duration());
-        LOGGER.info("ask result="+future);
 
         return result;
     }

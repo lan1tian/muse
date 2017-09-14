@@ -176,7 +176,8 @@
 </jsp:include>
 
 <script type="text/javascript">
-    var taskQo = ${taskQo};
+    <%--var taskQo = ${taskQo};--%>
+    var taskQo = 42600;
 </script>
 
 <script type="text/javascript" src="${contextPath}/assets/js/jarvis/task/task.js"></script>

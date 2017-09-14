@@ -99,8 +99,14 @@ public class OperationLogInterceptor implements MethodInterceptor {
                 Job preJob = this.jobMapper.selectByPrimaryKey(jobId);
                 operationLog.setTitle(preJob.getJobName());
                 operationLog.setRefer(String.valueOf(jobId));
-                operationLog.setAfterOperationContent(
-                        String.format("% 重跑任务 %s, 重跑起始时间为%s,重跑截止时间为%s", msg.getUser(), preJob.getJobName(), msg.getStartTime(), msg.getEndTime()));
+                String format = "";
+                try {
+                    format = String.format("%s 重跑任务 %s, 重跑起始时间为%s,重跑截止时间为%s", msg.getUser(), preJob.getJobName(), msg.getStartTime(), msg.getEndTime());
+                    LOGGER.info("operationLog:"+operationLog);
+                } catch (Exception e) {
+                    LOGGER.error("error: ", e);
+                }
+                operationLog.setAfterOperationContent(format);
             }
         }
 

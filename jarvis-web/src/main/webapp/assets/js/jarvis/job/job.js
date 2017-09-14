@@ -296,7 +296,7 @@ var columns = [{
     checkbox: true
 }, {
     field: 'jobId',
-    title: '任务id',
+    title: '任务',
     sortable: true,
     switchable: true
 }, {
@@ -496,7 +496,7 @@ var jobStatusClass = {
     "2": {"color": "glyphicon glyphicon-remove text-danger", "text": "禁用"},
     "3": {"color": "glyphicon glyphicon-calendar text-info", "text": "过期"},
     "4": {"color": "glyphicon glyphicon-trash text-danger", "text": "删除"},
-    "5": {"color": "glyphicon glyphicon-pause text-warning", "text": "暂停"}
+    "5": {"color": "glyphicon glyphicon-pause text-warning", "text": "暂停1"}
 }
 //状态格式化器
 function statusFormatter(value, row, index) {

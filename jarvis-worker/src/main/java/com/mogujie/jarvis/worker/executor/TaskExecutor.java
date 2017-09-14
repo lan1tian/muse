@@ -80,11 +80,13 @@ public class TaskExecutor extends Thread {
                     return;
                 }
             } catch (AcceptanceException e) {
+
+                LOGGER.info("AcceptanceException", e);
                 senderActor.tell(WorkerSubmitTaskResponse.newBuilder().setAccept(false).setSuccess(false).setMessage(e.getMessage()).build(),
                         selfActor);
                 return;
             } catch (Throwable e) {
-                LOGGER.error("", e);
+                LOGGER.error("Throwable", e);
                 senderActor.tell(WorkerSubmitTaskResponse.newBuilder().setAccept(false).setSuccess(false).setMessage(e.getMessage()).build(),
                         selfActor);
                 return;
