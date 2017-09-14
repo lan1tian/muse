@@ -22,6 +22,6 @@ public class IndexController {
 //            mp.clear();
 //            return "redirect:/task";
 //        }
-        return "ruson";
+        return "index";
     }
 }

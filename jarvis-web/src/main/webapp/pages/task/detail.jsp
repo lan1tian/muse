@@ -39,11 +39,13 @@
             </nav>
         </div>
 
-        <div class="col-md-2 pull-right top-buffer">
+
+        <div class="col-md-2 pull-right top-buffer" style="margin-top: 70px">
             <a href="javascript:void(0)" onclick="showTaskHistory('${taskVo.taskId}')">
                 <h4>查看重试记录</h4>
             </a>
         </div>
+
     </div>
 
     <div class="row top-buffer">

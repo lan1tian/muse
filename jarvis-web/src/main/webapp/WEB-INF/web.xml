@@ -102,4 +102,5 @@
     <session-config>
         <session-timeout>43200</session-timeout>
     </session-config>
+
 </web-app>

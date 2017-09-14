@@ -62,7 +62,7 @@ public class TaskController {
         taskQo.setLimit(30);
 
         Map<String, Object> result = taskService.getTasks(taskQo);
-        logger.info("result:" + result);
+//        logger.info("result:" + result);
         List<TaskVo> taskVoList = (List<TaskVo>) result.get("rows");
 
         try {
