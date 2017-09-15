@@ -310,6 +310,7 @@ create table ironman.script (
 insert into worker_group values(1,'a','ec80df2716a547b89d99a3d135dea1d3',1,'lisi',now(),now(),'lisi');
 insert into app_worker_group values(1,1,now(),now(),'lisi');
 insert into app values(1, 'jarvis-web', '11111',1,1,10, 'lisi', now(), now(), 'lisi');
+insert into ironman.script values(1,'count_test1','hivesql','wangwu',now(),now(),'lisi',0,'select count(1) from temp.test1');
 
 alter table job change  department  departmentId varchar(256);
 alter table task add column(alarmEnable int);

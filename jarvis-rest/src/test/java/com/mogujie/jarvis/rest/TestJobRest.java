@@ -60,7 +60,7 @@ public class TestJobRest {
         jobScheduleExpSet(jobId);
     }
 
-    //    @Test
+        @Test
     public void testJobDependencySet() throws UnirestException {
         Long jobId = jobSubmit();
         jobDependencySet(jobId);
@@ -126,6 +126,7 @@ public class TestJobRest {
         HttpResponse<String> jsonResponse = Unirest.post(baseUrl + "/api/job/submit").field("appName", "jarvis-web").field("appToken", "123")
                 .field("user", "muming").field("parameters", paramsJson).asString();
 
+        System.out.println("==jsonResponse==="+jsonResponse);
         Type restType = new TypeToken<RestResult4TestEntity<JobResultVo>>() {
         }.getType();
 

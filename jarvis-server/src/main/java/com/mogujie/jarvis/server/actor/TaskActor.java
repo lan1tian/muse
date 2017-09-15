@@ -215,9 +215,12 @@ public class TaskActor extends UntypedActor {
 
             Task task = taskService.get(taskId);
             TaskStatus oldStatus = TaskStatus.parseValue(task.getStatus());
+
             if (!oldStatus.equals(TaskStatus.FAILED) && !oldStatus.equals(TaskStatus.KILLED)) {
+                //
                 throw new IllegalArgumentException("Only status FAILED | KILLED could be retried.");
             }
+
             controller.notify(new RetryTaskEvent(taskId, msg.getUser()));
             response = ServerRetryTaskResponse.newBuilder().setSuccess(true).build();
             getSender().tell(response, getSelf());

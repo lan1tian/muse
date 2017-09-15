@@ -36,6 +36,13 @@ public class CommonAPIController {
         Map<String, Object> map = new HashMap<String, Object>();
         try {
             List<Map<String, Object>> allUsers = UserService.getAllUsers();
+            allUsers = new ArrayList<>();
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("workId", "10001");
+            map1.put("domain",  "domain");
+            map1.put("nickname",  "lisi");
+            map1.put("email",  "648380139@qq.com");
+            allUsers.add(map1);
             List<User> userList = new ArrayList<User>();
             for(Map<String, Object> m: allUsers) {
                 User user = new User();

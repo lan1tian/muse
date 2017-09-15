@@ -120,7 +120,7 @@
     <div class="row top-buffer">
         <div class="col-md-12">
             <div id="toobar">
-                <a class="btn btn-primary" href="${contextPath}/job/addOrEdit" target="_blank">新增任务</a>
+                <a class="btn btn-primary" href="${contextPath}/job/addOrEdit">新增任务</a>
                 <i class="glyphicon glyphicon-ok text-success fa-lg"></i>启用
                 <i class="glyphicon glyphicon-remove text-danger fa-lg"></i>禁用
                 <i class="glyphicon glyphicon-calendar text-info fa-lg"></i>过期

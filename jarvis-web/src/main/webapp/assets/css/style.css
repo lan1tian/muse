@@ -135,6 +135,7 @@ header.is-fixed {
   line-height: 70px;
   float: left;
   text-align: center;
+  font-size: medium;
 }
 #cd-top-nav li a{
   color: #337ab7;

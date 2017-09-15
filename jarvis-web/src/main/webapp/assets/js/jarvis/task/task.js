@@ -105,6 +105,7 @@ function initTaskColor() {
 
 //初始化操作类型
 function initTaskOperation() {
+    //当状态为4的时候，也可以原地重跑,目前不支持，后台可能有问题
     $.ajax({
         url: contextPath + "/assets/json/taskOperation.json",
         async: false,
@@ -160,7 +161,7 @@ function initBatchOperation() {
 
             var selecteds = glFuncs.getIdSelections("content");
             if (selecteds.length <= 0) {
-                showMsg("warning", "批量1" + operationName, "请至少选择一条执行记录");
+                showMsg("warning", "批量" + operationName, "请至少选择一条执行记录");
                 return;
             }
 
@@ -203,11 +204,10 @@ function search() {
 }
 
 function initSearchCondition() {
-    console.log("taskQo=="+taskQo);
     if (taskQo != null) {
         if (taskQo.jobIdList != null) {
             //var data = [];
-            $("#jobId").select2({data: [{id: -1, text: "撑住单元格,请@何剑"}]});
+            $("#jobId").select2({data: [{id: -1, text: "撑住单元格,请@admin"}]});
             for (var i = 0; i < taskQo.jobIdList.length; i++) {
                 var jobId = taskQo.jobIdList[i];
                 //data.push();
@@ -567,11 +567,11 @@ function operateFormatter(value, row, index) {
         if(row["isTemp"]==0||(row["isTemp"]==1&& c.url!='/api/task/retry')){
             operationStr += '<li><a href="javascript:void(0)" onclick="TaskOperate(\'' + jobId + '\',\'' + taskId + '\',\'' + attemptId + '\',\'' + c.url + '\',\'' + c.text + '\')">' + c.text + '</a></li>';
         }
-
     });
 
     var result='';
-    if(operations.length>0){
+    //原地重跑
+    if(operations.length>0) {
         result = [
             '<div class="btn-group"> <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">操作 <span class="caret"></span> </button>',
             '<ul class="dropdown-menu">',

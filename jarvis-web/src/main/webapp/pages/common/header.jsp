@@ -54,14 +54,13 @@
             <ul>
                 <li><a href="${contextPath}/pages/dashboard/index.jsp">我的任务</a></li>
                 <li><a href="${contextPath}/pages/job/index.jsp">任务管理</a></li>
-                <li><a href="${contextPath}/pages/trigger/index.jsp">重跑任务</a></li>
                 <li><a href="${contextPath}/pages/task/index.jsp">执行流水</a></li>
                 <li><a href="${contextPath}/pages/plan/index.jsp">执行计划</a></li>
+                <li><a href="${contextPath}/pages/trigger/index.jsp">重跑任务</a></li>
                 <li><a href="${contextPath}/pages/operation/index.jsp">操作记录</a></li>
                 <%--<li><a href="${contextPath}/pages/manage/system.jsp">调度系统管理</a></li>--%>
                 <li><a href="${contextPath}/pages/department/index.jsp">部门管理</a></li>
             </ul>
-
     </nav>
 
     <c:choose>

@@ -102,8 +102,6 @@ public class TaskDispatcher extends Thread {
                         if (allowed) {
                             ActorSelection actorSelection = system.actorSelection(workerInfo.getWorkerPath());
                             try {
-                                LOGGER.info("debug actorSelection="+actorSelection);
-                                LOGGER.info("debug getWorkerPath="+workerInfo.getWorkerPath());
                                 WorkerSubmitTaskResponse response = (WorkerSubmitTaskResponse) FutureUtils.awaitResult(actorSelection, request, 30);
                                 if (response.getSuccess()) {
                                     String ip = workerInfo.getIp();

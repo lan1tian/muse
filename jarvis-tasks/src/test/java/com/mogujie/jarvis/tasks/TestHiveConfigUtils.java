@@ -16,6 +16,7 @@ public class TestHiveConfigUtils {
 
         String app = "ironman";
         HiveTaskEntity hive = HiveConfigUtils.getHiveJobEntry(app);
+        System.out.println("HiveTaskEntity="+hive);
         Assert.assertNotNull(hive);
     }
 

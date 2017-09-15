@@ -50,7 +50,6 @@ public class WorkerRegistryActor extends UntypedActor {
 
     @Override
     public void onReceive(Object obj) throws Exception {
-        LOGGER.info("========onReceive=============="+obj);
         if (obj instanceof WorkerRegistryRequest) {
             WorkerRegistry((WorkerRegistryRequest) obj);
         } else {
@@ -59,8 +58,6 @@ public class WorkerRegistryActor extends UntypedActor {
     }
 
     private void WorkerRegistry(WorkerRegistryRequest request) {
-        LOGGER.info("========WorkerRegistryRequest=============="+request);
-
         ServerRegistryResponse response;
         try {
             String key = request.getKey();

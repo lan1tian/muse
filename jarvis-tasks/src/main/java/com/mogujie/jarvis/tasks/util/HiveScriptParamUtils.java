@@ -254,9 +254,13 @@ public class HiveScriptParamUtils {
 
     public static void main(String[] args) {
 
+        String str = "dwd_usr_users_${YTD(-1,yyyyMMdd 00:00:00)} ;${YTD(0)}";
+
         String text;
 
         DateTime today = DateTime.now();
+        System.out.println(parse(str, today));
+
         text = parse("where paytime >= unix_timestamp('$MGD(-1M, yyyy-MM-dd 00:00:00)')",today);
 
         System.out.println(parse(

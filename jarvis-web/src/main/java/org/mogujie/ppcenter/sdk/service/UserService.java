@@ -10,6 +10,7 @@ import java.util.Map;
 public class UserService {
 
     public static List<Map<String, Object>> getAllUsers() {
+
         return new ArrayList<Map<String, Object>>();
     }
 }

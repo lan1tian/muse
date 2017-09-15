@@ -465,7 +465,7 @@ function operateFormatter(value, row, index) {
 
     if (appId == jobAppId) {
         var edit = [
-            '<a  href="' + contextPath + '/job/addOrEdit?jobId=' + jobId + '" title="编辑任务信息" target="_blank">',
+            '<a  href="' + contextPath + '/job/addOrEdit?jobId=' + jobId + '" title="编辑任务信息">',
             '<i class="glyphicon glyphicon-edit"></i>编辑',
             '</a>  '
         ].join('');
@@ -496,7 +496,7 @@ var jobStatusClass = {
     "2": {"color": "glyphicon glyphicon-remove text-danger", "text": "禁用"},
     "3": {"color": "glyphicon glyphicon-calendar text-info", "text": "过期"},
     "4": {"color": "glyphicon glyphicon-trash text-danger", "text": "删除"},
-    "5": {"color": "glyphicon glyphicon-pause text-warning", "text": "暂停1"}
+    "5": {"color": "glyphicon glyphicon-pause text-warning", "text": "暂停"}
 }
 //状态格式化器
 function statusFormatter(value, row, index) {

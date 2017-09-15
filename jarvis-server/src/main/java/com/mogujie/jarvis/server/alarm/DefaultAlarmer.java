@@ -11,6 +11,7 @@ package com.mogujie.jarvis.server.alarm;
 import java.util.List;
 import java.util.Map;
 
+import com.mogujie.jarvis.server.util.EmailUtil;
 import org.apache.commons.configuration.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +39,6 @@ public class DefaultAlarmer extends Alarmer {
         fields.put("appName", serverConfig.getString(ServerConigKeys.ALARM_APP_NAME));
         fields.put("errorLevel", alarmLevel.name());
         fields.put("errorMsg", message);
-
         Map<String, Object> ext = Maps.newHashMap();
         ext.put("nickname", receiver);
         fields.put("ext", gson.toJson(ext));
@@ -46,8 +46,9 @@ public class DefaultAlarmer extends Alarmer {
         try {
 //            HttpResponse<JsonNode> response = Unirest.post(serverConfig.getString(ServerConigKeys.ALARM_SERVICE_URL)).fields(fields).asJson();
 //            JSONObject json = response.getBody().getObject();
+            EmailUtil.send(fields);
             JSONObject json = new JSONObject();
-            json.put("success", "success");
+            json.put("success", true);
 
             if (json.has("success")) {
                 return json.getBoolean("success");

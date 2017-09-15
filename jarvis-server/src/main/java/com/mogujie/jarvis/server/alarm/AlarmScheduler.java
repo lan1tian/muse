@@ -53,16 +53,17 @@ public class AlarmScheduler extends Scheduler {
 
     @Override
     public void handleStartEvent(StartEvent event) {
-
+        LOGGER.info("alerm started");
     }
 
     @Override
     public void handleStopEvent(StopEvent event) {
-
+        LOGGER.info("alerm stoped");
     }
 
     @Subscribe
     public void handleFailedEvent(FailedEvent event) {
+        LOGGER.info("alerm failed");
         if (alarmEnable) {
             long jobId = event.getJobId();
             Job job = jobService.get(jobId).getJob();
@@ -76,6 +77,7 @@ public class AlarmScheduler extends Scheduler {
 
     @Subscribe
     public void handleKilledEvent(KilledEvent event) {
+        LOGGER.info("alerm killed");
         if (alarmEnable) {
             long jobId = event.getJobId();
             Job job = jobService.get(jobId).getJob();
@@ -89,6 +91,7 @@ public class AlarmScheduler extends Scheduler {
 
     @Subscribe
     public void handleModifyKpiEvent(ModifyKpiEvent event) {
+        LOGGER.info("alerm modifyKpi");
         alarm(event.getJobId(), event.getMsg());
     }
 
