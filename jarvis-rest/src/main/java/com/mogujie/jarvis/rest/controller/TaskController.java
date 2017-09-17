@@ -139,12 +139,12 @@ public class TaskController extends AbstractController {
 
             Timeout timeout = new Timeout(Duration.create(30, TimeUnit.SECONDS));
             //timeout
-            LOGGER.info("task request="+request);
+            LOGGER.info("rerun task request="+request);
 
             ServerManualRerunTaskResponse response = (ServerManualRerunTaskResponse) callActor(AkkaType.SERVER, request, timeout);
             return response.getSuccess() ? successResult() : errorResult(response.getMessage());
         } catch (Exception e) {
-            LOGGER.error("", e);
+            LOGGER.error("error: ", e);
             return errorResult(e);
         }
     }

@@ -101,13 +101,8 @@ public class RemoteRestApiController {
     @ResponseBody
     public Map<String, Object> restApi(ModelMap modelMap, String url, String para) {
         Map<String, Object> result = new HashMap<String, Object>();
-
         String originUrl = url;
-
         url = domain + url;
-
-        logger.info("remote url:" + url);
-        logger.info("para:" + para);
 
         Map<String, String> data = new HashMap<String, String>();
         data.put("parameters", para);
@@ -130,7 +125,9 @@ public class RemoteRestApiController {
 
         //请求远程REST服务器。
         try {
-            logger.info(data.toString());
+            logger.info("remote url:" + url);
+            logger.info("para:" + para);
+            logger.info("data: "+data.toString());
             Connection connection = Jsoup.connect(url)
                     .data(data)
                     .postDataCharset("UTF-8")
@@ -142,7 +139,6 @@ public class RemoteRestApiController {
             Connection.Response response = connection.execute();
             logger.info("request url:" + response.url());
             String resultBody = response.body();
-
             logger.info("返回结果:" + resultBody);
             result = JsonHelper.fromJson(resultBody, Map.class);
 

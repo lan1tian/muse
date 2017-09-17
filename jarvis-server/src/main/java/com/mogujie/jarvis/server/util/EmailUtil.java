@@ -30,19 +30,19 @@ public class EmailUtil {
         properties.setProperty("mail.smtp.host", host);
         properties.put("mail." + protocol + ".auth", "false");
         properties.put("mail.smtp.ssl.trust", host);
-        Session session = Session.getDefaultInstance(properties);
-        try{
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            String msg = fields.get("errorMsg")+"";
-            String appName = fields.get("appName")+"";
-            message.setSubject(appName);
-            message.setText(msg);
-            Transport.send(message);
-        }catch (Exception mex) {
-            LOGGER.warn("error send email: ", mex);
-        }
+//        Session session = Session.getDefaultInstance(properties);
+//        try{
+//            MimeMessage message = new MimeMessage(session);
+//            message.setFrom(new InternetAddress(from));
+//            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+//            String msg = fields.get("errorMsg")+"";
+//            String appName = fields.get("appName")+"";
+//            message.setSubject(appName);
+//            message.setText(msg);
+//            Transport.send(message);
+//        }catch (Exception mex) {
+//            LOGGER.warn("error send email: ", mex);
+//        }
     }
 
     public static void main(String[] args) {
