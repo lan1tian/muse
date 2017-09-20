@@ -102,13 +102,9 @@
   <div class="row top-buffer">
     <div class="col-md-12">
       <table id="content" data-toolbar="#toolBar">
-
       </table>
-
     </div>
-
   </div>
-
 </div>
 
 <jsp:include page="../common/footer.jsp">
