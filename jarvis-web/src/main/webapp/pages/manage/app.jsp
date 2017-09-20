@@ -17,7 +17,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <nav>
                 <ol class="cd-breadcrumb triangle">
                     <li><a href="${contextPath}/">首页</a></li>
@@ -77,7 +77,7 @@
             <div class="row top-buffer">
                 <div class="col-md-12">
                     <div id="toolbar">
-                        <a class="btn btn-primary" href="${contextPath}/manage/appDetail" target="_blank">新增应用</a>
+                        <a class="btn btn-primary" href="${contextPath}/manage/appDetail">新增应用</a>
                     </div>
                     <table id="content" data-toolbar="#toolbar">
 

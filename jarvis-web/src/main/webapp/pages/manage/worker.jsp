@@ -13,7 +13,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <nav>
                 <ol class="cd-breadcrumb triangle">
                     <li><a href="${contextPath}/">首页</a></li>
@@ -150,8 +150,7 @@
                     <div class="row top-buffer">
                         <div class="col-md-12">
                             <div id="toolbar">
-                                <a class="btn btn-primary" href="${contextPath}/manage/workerGroupAddOrEdit"
-                                   target="_blank">新增Worker Group</a>
+                                <a class="btn btn-primary" href="${contextPath}/manage/workerGroupAddOrEdit">新增Worker Group</a>
                             </div>
                             <table id="workerGroupContent" data-toolbar="#toolbar">
 

@@ -23,7 +23,7 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <nav>
         <ol class="cd-breadcrumb triangle">
           <li><a href="${contextPath}/">首页</a></li>

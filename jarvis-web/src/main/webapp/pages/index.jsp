@@ -7,11 +7,12 @@
     <jsp:param name="platforms" value="${platforms}"/>
 </jsp:include>
 
+<%--<link rel="stylesheet" href="${contextPath}/assets/css/style.css" type="text/css" charset="utf-8">--%>
+
 
 <div class="container">
-
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <nav>
                 <%--20170914注释 style.css 73行--%>
                 <ol class="cd-breadcrumb triangle">

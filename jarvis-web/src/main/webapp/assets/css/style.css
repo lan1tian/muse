@@ -135,13 +135,15 @@ header.is-fixed {
   line-height: 70px;
   float: left;
   text-align: center;
-  font-size: medium;
+  font-size:small;
 }
 #cd-top-nav li a{
-  color: #337ab7;
+  /*color: #337ab7;*/
+  color: white;
 }
 #cd-top-nav li a:link{
-  color: #337ab7;
+  /*color: #337ab7;*/
+  color: white;
 }
 
 #cd-top-nav ul.main-menu {
@@ -521,4 +523,6 @@ header.is-fixed {
   margin-top:10px
 }
 
-
+/*.container .row .col-md-6 {*/
+  /*width: 30%;*/
+/*}*/
