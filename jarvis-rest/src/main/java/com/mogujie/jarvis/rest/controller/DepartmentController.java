@@ -39,7 +39,7 @@ public class DepartmentController extends AbstractController {
   @Produces(MediaType.APPLICATION_JSON)
   public RestResult submit(@FormParam("appName") String appName, @FormParam("appToken") String appToken,
       @FormParam("user") String user, @FormParam("parameters") String parameters) {
-    LOGGER.debug("新建部门");
+    LOGGER.info("新建部门");
     try {
       AppAuthProtos.AppAuth appAuth = AppAuthProtos.AppAuth.newBuilder().setName(appName).setToken(appToken).build();
       JsonParameters para = new JsonParameters(parameters);

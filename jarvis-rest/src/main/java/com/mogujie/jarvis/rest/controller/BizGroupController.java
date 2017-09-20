@@ -17,6 +17,8 @@ import com.mogujie.jarvis.rest.utils.ValidUtils;
 import com.mogujie.jarvis.rest.utils.ValidUtils.CheckMode;
 import com.mogujie.jarvis.rest.vo.BizGroupResultVo;
 import com.mogujie.jarvis.rest.vo.BizGroupVo;
+import org.apache.logging.log4j.util.Strings;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -44,7 +46,12 @@ public class BizGroupController extends AbstractController {
 
             BizGroupVo vo = JsonHelper.fromJson(parameters, BizGroupVo.class);
             JsonParameters para = new JsonParameters(parameters);
-            vo.setName(para.getString("bizGroupName"));
+            String bizGroupName = para.getString("bizGroupName");
+            //20170920
+            if (!Strings.isBlank(bizGroupName)) {
+                vo.setName(bizGroupName);
+            }
+//            vo.setName(bizGroupName);
             ValidUtils.checkBizGroup(CheckMode.ADD, vo);
 
             RestCreateBizGroupRequest request = RestCreateBizGroupRequest.newBuilder()
@@ -59,7 +66,7 @@ public class BizGroupController extends AbstractController {
             return response.getSuccess() ? successResult(new BizGroupResultVo().setId(response.getId()))
                     : errorResult(response.getMessage());
         } catch (Exception e) {
-            LOGGER.error("", e);
+            LOGGER.error("add biz:", e);
             return errorResult(e);
         }
     }

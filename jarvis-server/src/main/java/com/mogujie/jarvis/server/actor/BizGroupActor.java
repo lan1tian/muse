@@ -78,7 +78,7 @@ public class BizGroupActor extends UntypedActor {
         } catch (Exception ex) {
             response = ServerCreateBizGroupResponse.newBuilder().setSuccess(false).setMessage(ExceptionUtil.getErrMsg(ex)).build();
             getSender().tell(response, getSelf());
-            logger.error("", ex);
+            logger.error("createBizGroup: ", ex);
             throw ex;
         }
     }

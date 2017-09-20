@@ -307,9 +307,33 @@ create table ironman.script (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ironman.script';
 
+
+CREATE TABLE `department` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'departmentID',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT 'department名称',
+  `createTime` datetime NOT NULL COMMENT '创建时间',
+  `updateTime` datetime NOT NULL COMMENT '最后更新时间',
+  `updateUser` varchar(32) NOT NULL DEFAULT '' COMMENT '最后更新用户',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='department表';
+
+CREATE TABLE `department_biz_map` (
+  `departmentId` int(11) unsigned NOT NULL COMMENT 'departmentID',
+  `bizId` int(11) unsigned NOT NULL DEFAULT 0 COMMENT 'department名称',
+  `createTime` datetime NOT NULL COMMENT '创建时间',
+  `updateTime` datetime NOT NULL COMMENT '最后更新时间',
+  `updateUser` varchar(32) NOT NULL DEFAULT '' COMMENT '最后更新用户',
+  PRIMARY KEY (`departmentId`, `bizId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='department_biz_map表';
+
+
+
 insert into worker_group values(1,'a','ec80df2716a547b89d99a3d135dea1d3',1,'lisi',now(),now(),'lisi');
 insert into app_worker_group values(1,1,now(),now(),'lisi');
 insert into app values(1, 'jarvis-web', '11111',1,1,10, 'lisi', now(), now(), 'lisi');
+
+insert into app values(2, 'muse-web', '11111',1,1,10, 'wangwu', now(), now(), 'wangwu1');
+
 insert into ironman.script values(1,'count_test1','hivesql','wangwu',now(),now(),'lisi',0,'select count(1) from temp.test1');
 
 alter table job change  department  departmentId varchar(256);

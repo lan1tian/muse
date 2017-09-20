@@ -74,7 +74,7 @@
             <div class="row top-buffer">
                 <div class="col-md-12">
                     <div id="toolbar">
-                        <a class="btn btn-primary" href="${contextPath}/manage/bizDetail" target="_blank">新增业务标签</a>
+                        <a class="btn btn-primary" href="${contextPath}/manage/bizDetail">新增业务标签</a>
                     </div>
                     <table id="content" data-toolbar="#toolbar">
 

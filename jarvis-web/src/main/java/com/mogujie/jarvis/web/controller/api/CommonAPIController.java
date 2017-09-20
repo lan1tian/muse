@@ -39,10 +39,17 @@ public class CommonAPIController {
             allUsers = new ArrayList<>();
             Map<String, Object> map1 = new HashMap<String, Object>();
             map1.put("workId", "10001");
-            map1.put("domain",  "domain");
+            map1.put("domain",  "lisi");
             map1.put("nickname",  "lisi");
-            map1.put("email",  "648380139@qq.com");
+            map1.put("email",  "1648380132@qq.com");
             allUsers.add(map1);
+            map1 = new HashMap<String, Object>();
+            map1.put("workId", "10002");
+            map1.put("domain",  "wangwu");
+            map1.put("nickname",  "wangwu");
+            map1.put("email",  "1648380131@qq.com");
+            allUsers.add(map1);
+
             List<User> userList = new ArrayList<User>();
             for(Map<String, Object> m: allUsers) {
                 User user = new User();

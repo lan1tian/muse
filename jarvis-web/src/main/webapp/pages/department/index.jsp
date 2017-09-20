@@ -73,10 +73,7 @@
           </div>
         </div>
       </div>
-
-
     </div>
-
   </div>
 
   <hr>
@@ -84,7 +81,7 @@
   <div class="row top-buffer">
     <div class="col-md-12">
       <div id="toolbar">
-        <a class="btn btn-primary" href="${contextPath}/department/add" target="_blank">新增部门</a>
+        <a class="btn btn-primary" href="${contextPath}/department/add">新增部门</a>
       </div>
       <table id="content" data-toolbar="#toolbar">
 

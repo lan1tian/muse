@@ -4,7 +4,7 @@ package com.mogujie.jarvis.rest.vo;
  * AlarmVo类
  * @author muming
  */
-public class BizGroupVo extends  AbstractVo{
+public class BizGroupVo extends  AbstractVo {
 
     private Integer id;
 
