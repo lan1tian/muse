@@ -435,6 +435,8 @@ public class TaskScheduler extends Scheduler {
         } else {
             content = task.getContent();
         }
+        LOGGER.info("taskId:"+task.getTaskId()+", content:"+content);
+
         builder.setContent(content);
 
         // 根据业务类型加入不同队列

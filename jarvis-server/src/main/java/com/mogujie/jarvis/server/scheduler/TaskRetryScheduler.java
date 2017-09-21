@@ -70,7 +70,7 @@ public enum TaskRetryScheduler {
     public void addTask(TaskDetail taskDetail, RetryType retryType) {
         String jobIdWithTaskId = taskDetail.getFullId().replaceAll("_\\d+$", "");
 
-        LOGGER.debug("add task to retry, jobIdWithTaskId: {}", jobIdWithTaskId);
+        LOGGER.info("add task to retry, jobIdWithTaskId: {}", jobIdWithTaskId);
 
         DateTime expiredDateTime = null;
         if (retryType == RetryType.FAILED_RETRY) {

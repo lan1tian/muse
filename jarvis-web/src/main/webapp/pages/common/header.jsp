@@ -68,7 +68,8 @@
                 <%--<li><a href="${contextPath}/pages/manage/worker.jsp">Worker管理</a></li>--%>
                 <%--<li><a href="${contextPath}/pages/manage/system.jsp">调度系统管理</a></li>--%>
                 <li>
-                    <select onchange="skip()" id="manager" style="background-color: rgb(49, 53, 61);color: white">
+                    <select onchange="skip()" id="manager" style="background-color: rgb(49, 53, 61);color: white;border: hidden;">
+                        <option value="app.jsp" style="color:white; background-color: rgb(49, 53, 61)">后台管理</option>
                         <option value="app.jsp" style="color:white; background-color: rgb(49, 53, 61)">应用管理</option>
                         <option value="bizGroup.jsp" style="color:white;background-color: rgb(49, 53, 61)">业务类型管理</option>
                         <option value="worker.jsp" style="color:white;background-color: rgb(49, 53, 61)">Worker管理</option>

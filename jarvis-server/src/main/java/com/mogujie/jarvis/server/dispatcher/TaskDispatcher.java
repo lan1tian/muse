@@ -67,11 +67,9 @@ public class TaskDispatcher extends Thread {
             if (running == SystemStatus.RUNNING) {
                 TaskDetail task = null;
                 task = queue.get();
-
                 if (task == null) {
                     continue;
                 }
-
                 try {
                     String appName = task.getAppName();
                     int appId = appService.getAppIdByName(appName);
@@ -85,7 +83,7 @@ public class TaskDispatcher extends Thread {
                     builder = builder.setContent(task.getContent());
                     builder = builder.setPriority(task.getPriority());
                     builder = builder.setDataTime(task.getDataTime().getMillis());
-
+                    LOGGER.info("taskFullId:"+task.getFullId()+", content:"+task.getContent());
                     int i = 0;
                     if (task.getParameters() != null) {
                         for (Entry<String, Object> entry : task.getParameters().entrySet()) {
@@ -102,12 +100,13 @@ public class TaskDispatcher extends Thread {
                         if (allowed) {
                             ActorSelection actorSelection = system.actorSelection(workerInfo.getWorkerPath());
                             try {
+                                LOGGER.info("request to worker:"+request);
                                 WorkerSubmitTaskResponse response = (WorkerSubmitTaskResponse) FutureUtils.awaitResult(actorSelection, request, 30);
                                 if (response.getSuccess()) {
                                     String ip = workerInfo.getIp();
                                     int port = workerInfo.getPort();
                                     if (response.getAccept()) {
-                                        LOGGER.debug("Task[{}] was accepted by worker[{}:{}]", fullId, ip, port);
+                                        LOGGER.info("Task[{}] was accepted by worker[{}:{}]", fullId, ip, port);
                                         continue;
                                     } else {
                                         LOGGER.warn("Task[{}] was rejected by worker[{}:{}], {}", fullId, ip, port, response.getMessage());

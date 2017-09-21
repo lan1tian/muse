@@ -295,7 +295,7 @@ CREATE TABLE `operation_log` (
 ) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 create table ironman.script (
-   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id = Integer.valueOf(job.getContent())',
   `title` varchar(200)   COMMENT ' ',
   `type` varchar(200)   COMMENT ' ',
   `creator` varchar(200)  COMMENT '任务内容',
@@ -335,6 +335,9 @@ insert into app values(1, 'jarvis-web', '11111',1,1,10, 'lisi', now(), now(), 'l
 insert into app values(2, 'muse-web', '11111',1,1,10, 'wangwu', now(), now(), 'wangwu1');
 
 insert into ironman.script values(1,'count_test1','hivesql','wangwu',now(),now(),'lisi',0,'select count(1) from temp.test1');
+insert into ironman.script values(2,'count_test2','hivesql','wangsu',now(),now(),'wangsu',0,'select count(1) from temp where id =''${YTD(-1, yyyy-MM-dd)}''');
+insert into ironman.script values(3,'count_test3','hivesql','wangsu',now(),now(),'wangsu',0,'select count(1) from temp where id =''$MGD(-1d, yyyy-MM-dd 00:00:00)''');
+insert into ironman.script values(4,'count_test4','hivesql','wangsu',now(),now(),'wangsu',0,'select count(1) from temp where id =''${YTD(-1, yyyy-MM-dd)}''');
 
 alter table job change  department  departmentId varchar(256);
 alter table task add column(alarmEnable int);

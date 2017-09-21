@@ -102,7 +102,9 @@ public class ShellTask extends AbstractTask {
         String statusFilePath = STATUS_PATH + "/" + task.getFullId() + ".status";
         try {
             StringBuilder sb = new StringBuilder();
+            LOGGER.info("pre execute taskId:"+task.getFullId()+", cmd:"+getCommand()+", datatime:"+task.getDataTime());
             String cmd = HiveScriptParamUtils.parse(getCommand(), task.getDataTime());
+            LOGGER.info("post execute taskId:"+task.getFullId()+",  cmd:"+cmd+", datatime:"+task.getDataTime());
             sb.append("(");
             sb.append(cmd);
             sb.append(");export JARVIS_EXIT_CODE=$? ").append("&& echo $JARVIS_EXIT_CODE > ").append(statusFilePath)
