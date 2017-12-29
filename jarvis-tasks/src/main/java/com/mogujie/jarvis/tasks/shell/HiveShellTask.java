@@ -63,6 +63,7 @@ public class HiveShellTask extends ShellTask {
         }
     }
 
+    //bug通过文本重跑的命令有问题，每次重跑会叠加执行内容，暂时没有fix
     @Override
     public String getCommand() {
         TaskDetail task = getTaskContext().getTaskDetail();
@@ -87,7 +88,7 @@ public class HiveShellTask extends ShellTask {
         sb.append(MoguAnnotationUtils
                 .removeAnnotation(HiveScriptParamUtils.parse(replaceTmpTableName(getContent(task), task.getDataTime()), task.getDataTime())));
         sb.append("\"");
-
+        LOGGER.info("command="+sb);
         return sb.toString();
     }
 
