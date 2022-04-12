@@ -16,7 +16,7 @@
         <spring.version>4.2.4.RELEASE</spring.version>
         <local.repo.host>http://maven.mogujie.org</local.repo.host>
         <admin.version>1.0-SNAPSHOT</admin.version>
-        <hadoop.version>2.7.1</hadoop.version>
+        <hadoop.version>3.2.3</hadoop.version>
         <jarvis2.version>${project.parent.version}</jarvis2.version>
     </properties>
 
