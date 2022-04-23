@@ -13,7 +13,7 @@
 
 
     <properties>
-        <spring.version>4.2.4.RELEASE</spring.version>
+        <spring.version>5.3.19</spring.version>
         <local.repo.host>http://maven.mogujie.org</local.repo.host>
         <admin.version>1.0-SNAPSHOT</admin.version>
         <hadoop.version>2.7.1</hadoop.version>
